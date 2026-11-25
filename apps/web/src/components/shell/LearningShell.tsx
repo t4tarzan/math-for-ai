@@ -12,9 +12,11 @@ import {
   Sparkles,
 } from "lucide-react";
 import { notifyProgress, ProgressHUD } from "@/components/gamification/ProgressHUD";
+import { AuthButton } from "@/components/auth/AuthButton";
 import { DeployPanel } from "@/components/shell/DeployPanel";
 import { LocalWorkspace } from "@/components/shell/LocalWorkspace";
 import { Button } from "@/components/ui/button";
+import { Reveal } from "@/components/ui/Reveal";
 import { track } from "@/lib/analytics";
 import { getExercisePlugin } from "@/lib/exercises/registry";
 import { getFigureComponent } from "@/lib/figures/registry";
@@ -56,6 +58,7 @@ export function LearningShell({ lesson }: LearningShellProps) {
   const [runResult, setRunResult] = useState<RunResult | null>(null);
   const [running, setRunning] = useState(false);
   const [pyodideReady, setPyodideReady] = useState(false);
+  const [runtimeError, setRuntimeError] = useState<string | null>(null);
   const [hintIndex, setHintIndex] = useState(0);
   const [xpToast, setXpToast] = useState<string | null>(null);
 
@@ -104,10 +107,25 @@ export function LearningShell({ lesson }: LearningShellProps) {
 
   useEffect(() => {
     if (!hasBuild) return;
+    let cancelled = false;
+    setRuntimeError(null);
+    setPyodideReady(false);
     import("@/lib/pyodide-runner")
       .then((m) => m.getPyodide())
-      .then(() => setPyodideReady(true))
-      .catch(() => setPyodideReady(false));
+      .then(() => {
+        if (!cancelled) {
+          setPyodideReady(true);
+          setRuntimeError(null);
+        }
+      })
+      .catch((err: unknown) => {
+        if (cancelled) return;
+        setPyodideReady(false);
+        setRuntimeError(err instanceof Error ? err.message : String(err));
+      });
+    return () => {
+      cancelled = true;
+    };
   }, [hasBuild]);
 
   const exercisePlugin = getExercisePlugin(
@@ -215,7 +233,7 @@ export function LearningShell({ lesson }: LearningShellProps) {
       <header className="sticky top-0 z-20 border-b border-[var(--rule-soft)] bg-[var(--header-bg)] backdrop-blur-sm">
         <div className="mx-auto flex h-14 max-w-[1600px] items-center justify-between gap-4 px-4">
           <div className="min-w-0">
-            <Link href="/lessons" className="font-display text-lg leading-none tracking-wide text-[var(--blueprint)]">
+            <Link href="/lessons" className="link-underline font-display text-lg leading-none tracking-wide text-[var(--blueprint)]">
               Math for AI
             </Link>
             <p className="truncate font-mono text-[10px] uppercase tracking-widest text-[var(--ink-mute)]">
@@ -238,6 +256,7 @@ export function LearningShell({ lesson }: LearningShellProps) {
           </div>
           <div className="flex items-center gap-3">
             <ProgressHUD />
+            <AuthButton />
             <span className="hidden font-mono text-xs text-[var(--ink-mute)] sm:block">
               {stepIndex + 1}/{total}
             </span>
@@ -252,10 +271,12 @@ export function LearningShell({ lesson }: LearningShellProps) {
 
       <main className="mx-auto grid w-full max-w-[1600px] flex-1 grid-cols-1 lg:grid-cols-[minmax(220px,1fr)_minmax(0,2fr)_minmax(260px,1fr)]">
         <section className="border-b border-[var(--rule-soft)] p-4 lg:border-b-0 lg:border-r">
-          <p className="mb-2 font-mono text-[10px] uppercase tracking-widest text-[var(--blueprint)]">
-            {step.beat}
-          </p>
-          <h1 className="font-body text-xl font-semibold leading-snug">{step.title}</h1>
+          <Reveal>
+            <p className="mb-2 font-mono text-[10px] uppercase tracking-widest text-[var(--blueprint)]">
+              {step.beat}
+            </p>
+            <h1 className="font-body text-xl font-semibold leading-snug">{step.title}</h1>
+          </Reveal>
 
           {step.type === "motto" && (
             <blockquote className="mt-6 border-l-2 border-[var(--blueprint)] pl-4 font-body text-2xl italic leading-relaxed text-[var(--ink-soft)]">
@@ -363,9 +384,9 @@ export function LearningShell({ lesson }: LearningShellProps) {
 
         <section className="flex min-h-[320px] flex-col border-b border-[var(--rule-soft)] lg:border-b-0 lg:border-r">
           {FigureComponent && (
-            <div className="flex-1 p-4">
+            <Reveal className="flex-1 p-4">
               <FigureComponent onInteract={() => setFigureReady(true)} />
-            </div>
+            </Reveal>
           )}
 
           {step.type === "build" && (
@@ -380,8 +401,38 @@ export function LearningShell({ lesson }: LearningShellProps) {
                 <>
                   <div className="flex items-center justify-between border-b border-[var(--rule-soft)] px-3 py-2 font-mono text-xs text-[var(--ink-mute)]">
                     <span>{step.code?.filename}</span>
-                    <span>{pyodideReady ? `${exercisePlugin.label} ready` : "Loading runtime…"}</span>
+                    <span className={runtimeError ? "text-red-600" : undefined}>
+                      {pyodideReady
+                        ? `${exercisePlugin.label} ready`
+                        : runtimeError
+                          ? "Runtime failed"
+                          : "Loading runtime…"}
+                    </span>
                   </div>
+                  {runtimeError && (
+                    <div className="border-b border-red-200 bg-red-50 px-3 py-2 font-mono text-xs text-red-700">
+                      <p className="mb-1">{runtimeError}</p>
+                      <button
+                        type="button"
+                        className="underline"
+                        onClick={() => {
+                          setRuntimeError(null);
+                          setPyodideReady(false);
+                          import("@/lib/pyodide-runner").then(async (m) => {
+                            m.resetPyodide();
+                            try {
+                              await m.getPyodide();
+                              setPyodideReady(true);
+                            } catch (err) {
+                              setRuntimeError(err instanceof Error ? err.message : String(err));
+                            }
+                          });
+                        }}
+                      >
+                        Retry load
+                      </button>
+                    </div>
+                  )}
                   <div className="min-h-0 flex-1">
                     <CodeEditor
                       value={code}

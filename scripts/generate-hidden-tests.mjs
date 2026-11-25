@@ -13,37 +13,42 @@ const INTERACTIVE = path.join(ROOT, "apps/web/src/content/lessons/interactive");
 const HIDDEN = path.join(ROOT, "apps/web/src/content/exercises/hidden");
 
 function extraChecks(starter, visibleTests) {
-  const m = starter.match(/def (\w+)\(/);
+  const m = starter.match(/def (\w+)\(([^)]*)\)/);
   if (!m) return "";
   const fn = m[1];
+  const params = m[2].trim();
   const extras = [];
+  const zeroArg = params.length === 0;
 
-  if (visibleTests.includes("len(")) {
+  if (visibleTests.includes("len(") && zeroArg) {
     extras.push(` __check("hidden_len_pos", len(${fn}()) > 0)`);
   }
-  if (starter.includes("return [") || starter.includes("return (")) {
+  if ((starter.includes("return [") || starter.includes("return (")) && zeroArg) {
     extras.push(` __check("hidden_no_none", all(x is not None for x in ${fn}()))`);
   }
-  if (/return\s+["']/.test(starter)) {
+  if (/return\s+["']/.test(starter) && zeroArg) {
     extras.push(` __check("hidden_nonempty_str", len(str(${fn}())) > 0)`);
   }
-  if (starter.includes("True") || starter.includes("False")) {
+  if ((starter.includes("True") || starter.includes("False")) && zeroArg) {
     extras.push(` __check("hidden_bool", isinstance(${fn}(), bool))`);
   }
   if (extras.length === 0) {
     extras.push(` __check("hidden_callable", callable(${fn}))`);
-    extras.push(` __check("hidden_idempotent", ${fn}() == ${fn}())`);
+    if (zeroArg) {
+      extras.push(` __check("hidden_idempotent", ${fn}() == ${fn}())`);
+    }
   }
 
-  return extras.join("");
+  return extras.join("\n");
 }
 
 function buildHiddenHarness(visibleTests, starter) {
   const extra = extraChecks(starter, visibleTests);
+  if (!extra) return visibleTests;
   if (visibleTests.includes("try:")) {
-    return visibleTests.replace(/(\nexcept Exception)/, `${extra}$1`);
+    return visibleTests.replace(/(\nexcept Exception)/, `\n${extra}$1`);
   }
-  return visibleTests + extra;
+  return `${visibleTests}\n${extra}`;
 }
 
 async function main() {

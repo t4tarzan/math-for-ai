@@ -8,8 +8,11 @@
 
 | Variable | Required | Notes |
 |----------|----------|-------|
-| `DATABASE_URL` | For deploy + waitlist | Neon, Supabase, or Railway Postgres. Must support pgvector for capstones later. |
-| `NEXT_PUBLIC_APP_URL` | Recommended | e.g. `https://math-for-ai.vercel.app` |
+| `DATABASE_URL` | For deploy + waitlist + auth | Neon, Supabase, or Railway Postgres. Must support pgvector for capstones later. |
+| `AUTH_SECRET` | **Required for auth** | Generate: `openssl rand -base64 32` |
+| `GITHUB_ID` / `GITHUB_SECRET` | Optional | GitHub OAuth app credentials |
+| `NEXT_PUBLIC_GITHUB_ENABLED` | Optional | Set `true` when GitHub OAuth is configured |
+| `NEXT_PUBLIC_APP_URL` | Recommended | Production: `https://math.wntap.org` |
 | `NEXT_PUBLIC_POSTHOG_KEY` | Optional | PostHog project API key |
 | `NEXT_PUBLIC_POSTHOG_HOST` | Optional | Default `https://us.i.posthog.com` |
 
@@ -35,7 +38,7 @@ Without `DATABASE_URL`, waitlist falls back to local file (not suitable for serv
 
 ```bash
 npm run infra:up          # Postgres on localhost:5433
-cd apps/web && npm run dev # App on http://localhost:7777
+cd apps/web && npm run dev # App on http://localhost:7790
 ```
 
 Copy `apps/web/.env.example` → `apps/web/.env.local`:
@@ -51,6 +54,7 @@ DATABASE_URL=postgresql://m4ai:m4ai@localhost:5433/m4ai
 - [ ] `cd apps/web && npm run build`
 - [ ] `DATABASE_URL` set on Vercel
 - [ ] Test `/api/health/db` after first deploy
+- [ ] Set `AUTH_SECRET` and test sign up / sign in
 - [ ] Test waitlist on landing page
 - [ ] Test `/demo/07-docker-for-ai` deploy flow
 
@@ -58,6 +62,12 @@ DATABASE_URL=postgresql://m4ai:m4ai@localhost:5433/m4ai
 
 ## Custom domain
 
-Vercel → Project → Settings → Domains → add `mathfor.ai` (or your domain).
+Production host: **https://math.wntap.org**
 
-Update `NEXT_PUBLIC_APP_URL` to match.
+Git pushes to `main` deploy production via Vercel Git integration (root directory `apps/web`).
+
+If DNS is not on Vercel nameservers, add a CNAME:
+
+```
+math.wntap.org  CNAME  cname.vercel-dns.com
+```

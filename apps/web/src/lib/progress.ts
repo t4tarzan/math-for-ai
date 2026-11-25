@@ -5,6 +5,7 @@ import {
   updateStreak,
   XP_PHASE_BONUS,
 } from "@/lib/gamification";
+import { mergeProgressStates } from "@/lib/progress-merge";
 
 const STORAGE_KEY = "m4ai:progress:v2";
 const LEGACY_KEY = "m4ai:progress:v1";
@@ -239,39 +240,6 @@ export function getProgressSummary() {
 export function mergeRemoteProgress(remote: ProgressState) {
   if (typeof window === "undefined") return;
   const local = readProgress();
-  const merged: ProgressState = {
-    ...local,
-    xp: Math.max(local.xp, remote.xp ?? 0),
-    streakDays: Math.max(local.streakDays, remote.streakDays ?? 0),
-    badges: [...new Set([...(local.badges ?? []), ...(remote.badges ?? [])])],
-    questsCompleted: [...new Set([...(local.questsCompleted ?? []), ...(remote.questsCompleted ?? [])])],
-    lessons: { ...local.lessons },
-    updatedAt: Math.max(local.updatedAt, remote.updatedAt ?? 0),
-  };
-
-  for (const [id, remoteLesson] of Object.entries(remote.lessons ?? {})) {
-    const localLesson = local.lessons[id] ?? emptyLesson();
-    const pickLocal = localLesson.visitedAt >= (remoteLesson.visitedAt ?? 0);
-    merged.lessons[id] = {
-      ...localLesson,
-      completedAt:
-        localLesson.completedAt && remoteLesson.completedAt
-          ? Math.min(localLesson.completedAt, remoteLesson.completedAt)
-          : localLesson.completedAt ?? remoteLesson.completedAt ?? null,
-      lastStepId: pickLocal ? localLesson.lastStepId : remoteLesson.lastStepId ?? localLesson.lastStepId,
-      visitedAt: Math.max(localLesson.visitedAt, remoteLesson.visitedAt ?? 0),
-      attempts: Math.max(localLesson.attempts, remoteLesson.attempts ?? 0),
-      firstPassAt:
-        localLesson.firstPassAt && remoteLesson.firstPassAt
-          ? Math.min(localLesson.firstPassAt, remoteLesson.firstPassAt)
-          : localLesson.firstPassAt ?? remoteLesson.firstPassAt ?? null,
-      xpEarned: Math.max(localLesson.xpEarned, remoteLesson.xpEarned ?? 0),
-      code: pickLocal ? localLesson.code : remoteLesson.code ?? localLesson.code,
-      workspaceFiles: pickLocal
-        ? localLesson.workspaceFiles
-        : remoteLesson.workspaceFiles ?? localLesson.workspaceFiles,
-    };
-  }
-
+  const merged = mergeProgressStates(local, remote);
   writeProgress(merged, { skipSync: true });
 }

@@ -11,5 +11,6 @@ build/
 .turbo
 data/
 .data/
+apps/web/public/pyodide/
 .idea/
 .vscode/

@@ -19,6 +19,7 @@ export async function pushProgressToServer(): Promise<boolean> {
     const res = await fetch("/api/progress", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
+      credentials: "include",
       body: JSON.stringify({ deviceId, state }),
     });
     return res.ok;
@@ -30,7 +31,10 @@ export async function pushProgressToServer(): Promise<boolean> {
 export async function pullProgressFromServer(): Promise<ProgressState | null> {
   const deviceId = getDeviceId();
   try {
-    const res = await fetch(`/api/progress?deviceId=${encodeURIComponent(deviceId)}`);
+    const res = await fetch(
+      `/api/progress?deviceId=${encodeURIComponent(deviceId)}`,
+      { credentials: "include" },
+    );
     const data = await res.json();
     if (data.ok && data.state) return data.state as ProgressState;
   } catch {

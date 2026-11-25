@@ -14,7 +14,7 @@ git clone git@github.com:t4tarzan/math-for-ai.git
 **Phase 0–19 roadmap** — **502/502 interactive** lessons with topic-specific exercises, hints, XP/streaks/badges, and plugin-ready T0/T1/T2 tiers (see `docs/EXTENSIBILITY.md`).
 
 ```bash
-# Terminal 1 — app (http://localhost:7777)
+# Terminal 1 — app (http://localhost:7790)
 cd apps/web && npm install && npm run dev
 
 # Terminal 2 — Postgres (slice v2 deploy)
@@ -29,11 +29,11 @@ node scripts/build-interactive-lessons.mjs
 
 | URL | What |
 |-----|------|
-| http://localhost:7777 | Landing |
-| http://localhost:7777/lessons | Full roadmap — Phases 0–19 (502 lessons) |
-| http://localhost:7777/demo/01-dev-environment | **Start here** — Phase 0 setup |
-| http://localhost:7777/demo/07-docker-for-ai | Deploy Postgres |
-| http://localhost:7777/demo/01-linear-algebra-intuition | Phase 1 math + Pyodide |
+| http://localhost:7790 | Landing |
+| http://localhost:7790/lessons | Full roadmap — Phases 0–19 (502 lessons) |
+| http://localhost:7790/demo/01-dev-environment | **Start here** — Phase 0 setup |
+| http://localhost:7790/demo/07-docker-for-ai | Deploy Postgres |
+| http://localhost:7790/demo/01-linear-algebra-intuition | Phase 1 math + Pyodide |
 
 ## Docs
 

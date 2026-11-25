@@ -14,9 +14,9 @@ pnpm dev
 bun dev
 ```
 
-Open [http://localhost:7777](http://localhost:7777) with your browser to see the result.
+Open [http://localhost:7790](http://localhost:7790) with your browser to see the result.
 
-Dev server runs on **port 7777** by default (`next dev -p 7777`) to avoid clashing with other tools on 3000.
+Dev server runs on **port 7790** by default (`next dev -p 7790`) to avoid clashing with other tools on 3000.
 
 You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
 

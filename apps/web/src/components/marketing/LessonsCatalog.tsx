@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 import { QuestPanel } from "@/components/gamification/QuestPanel";
 import { Button } from "@/components/ui/button";
+import { Reveal } from "@/components/ui/Reveal";
 import { badgeById, levelFromXp } from "@/lib/gamification";
 import { getCompletedCount, getProgressSummary, isLessonComplete } from "@/lib/progress";
 import type { LessonCatalogEntry } from "@/lib/lesson-types";
@@ -69,37 +70,41 @@ export function LessonsCatalog({ phases, lessonCount, interactiveCount }: Lesson
         const interactiveInPhase = lessons.filter((l) => l.interactive).length;
         return (
           <section key={phaseId} className="mt-10">
-            <div className="flex flex-wrap items-baseline justify-between gap-2">
-              <h2 className="font-mono text-xs uppercase tracking-[0.2em] text-[var(--ink-mute)]">
-                Phase {String(phaseId).padStart(2, "0")} — {lessons[0]?.phaseName}
-              </h2>
-              <span className="font-mono text-[10px] text-[var(--ink-mute)]">
-                {lessons.length} lessons
-                {interactiveInPhase > 0 ? ` · ${interactiveInPhase} interactive` : " · preview"}
-              </span>
-            </div>
-            <ul className="mt-4 divide-y divide-[var(--rule-soft)] rounded-md border border-[var(--rule-soft)] bg-[var(--bg-surface)]">
-              {lessons.map((lesson) => (
-                <li key={lesson.id} className="flex items-center justify-between gap-4 px-4 py-3">
-                  <div>
-                    <p className="font-body font-medium">
-                      {String(lesson.lessonNumber).padStart(2, "0")}. {lesson.title}
-                      {completed[lesson.id] && (
-                        <span className="ml-2 font-mono text-[10px] text-[var(--blueprint)]">✓ done</span>
-                      )}
-                    </p>
-                    <p className="font-mono text-[10px] uppercase tracking-widest text-[var(--ink-mute)]">
-                      {lesson.interactive ? "Interactive" : "Preview"}
-                    </p>
-                  </div>
-                  <Link href={lesson.path}>
-                    <Button variant={lesson.interactive ? "primary" : "secondary"} size="sm">
-                      Open
-                    </Button>
-                  </Link>
-                </li>
-              ))}
-            </ul>
+            <Reveal>
+              <div className="flex flex-wrap items-baseline justify-between gap-2">
+                <h2 className="font-mono text-xs uppercase tracking-[0.2em] text-[var(--ink-mute)]">
+                  Phase {String(phaseId).padStart(2, "0")} — {lessons[0]?.phaseName}
+                </h2>
+                <span className="font-mono text-[10px] text-[var(--ink-mute)]">
+                  {lessons.length} lessons
+                  {interactiveInPhase > 0 ? ` · ${interactiveInPhase} interactive` : " · preview"}
+                </span>
+              </div>
+            </Reveal>
+            <Reveal stagger={90}>
+              <ul className="card-lift mt-4 divide-y divide-[var(--rule-soft)] rounded-md border border-[var(--rule-soft)] bg-[var(--bg-surface)]">
+                {lessons.map((lesson) => (
+                  <li key={lesson.id} className="flex items-center justify-between gap-4 px-4 py-3">
+                    <div>
+                      <p className="font-body font-medium">
+                        {String(lesson.lessonNumber).padStart(2, "0")}. {lesson.title}
+                        {completed[lesson.id] && (
+                          <span className="ml-2 font-mono text-[10px] text-[var(--blueprint)]">✓ done</span>
+                        )}
+                      </p>
+                      <p className="font-mono text-[10px] uppercase tracking-widest text-[var(--ink-mute)]">
+                        {lesson.interactive ? "Interactive" : "Preview"}
+                      </p>
+                    </div>
+                    <Link href={lesson.path}>
+                      <Button variant={lesson.interactive ? "primary" : "secondary"} size="sm">
+                        Open
+                      </Button>
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </Reveal>
           </section>
         );
       })}

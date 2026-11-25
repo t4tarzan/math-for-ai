@@ -4,10 +4,9 @@
   "type": "module",
   "scripts": {
     "dev": "npm run dev --prefix apps/web",
-    "build": "npm run compile:lessons && node scripts/generate-hidden-tests.mjs && npm run build --prefix apps/web",
+    "build": "npm run build --prefix apps/web",
     "start": "npm run start --prefix apps/web",
     "lint": "npm run lint --prefix apps/web",
-    "compile:interactive": "node scripts/build-interactive-lessons.mjs && node scripts/enrich-lesson-platform.mjs && node scripts/generate-hidden-tests.mjs",
     "enrich:lessons": "node scripts/enrich-lesson-platform.mjs",
     "lint:lessons": "node scripts/lint-lessons.mjs",
     "generate:batch4": "node scripts/generate-batch4-specs.mjs",
@@ -15,11 +14,13 @@
     "generate:batch6": "node scripts/generate-batch6-enriched.mjs",
     "generate:batch7": "node scripts/generate-batch7-enriched.mjs",
     "generate:hidden-tests": "node scripts/generate-hidden-tests.mjs",
-    "compile:lessons": "node scripts/build-interactive-lessons.mjs && node scripts/compile-lessons.mjs --phase=all",
-    "compile:lessons:phase0": "node scripts/compile-lessons.mjs --phase=0",
-    "compile:lessons:phase1": "node scripts/compile-lessons.mjs --phase=1",
     "infra:up": "docker compose up -d",
     "infra:down": "docker compose down",
-    "infra:logs": "docker compose logs -f postgres"
+    "infra:logs": "docker compose logs -f postgres",
+    "sync:source": "node scripts/sync-source.mjs --from",
+    "legacy:compile:lessons": "node scripts/build-interactive-lessons.mjs && node scripts/compile-lessons.mjs --phase=all",
+    "legacy:compile:lessons:phase0": "node scripts/compile-lessons.mjs --phase=0",
+    "legacy:compile:lessons:phase1": "node scripts/compile-lessons.mjs --phase=1",
+    "legacy:compile:interactive": "node scripts/build-interactive-lessons.mjs && node scripts/enrich-lesson-platform.mjs && node scripts/generate-hidden-tests.mjs"
   }
 }

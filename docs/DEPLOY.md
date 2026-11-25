@@ -50,7 +50,7 @@ DATABASE_URL=postgresql://m4ai:m4ai@localhost:5433/m4ai
 
 ## Pre-deploy checklist
 
-- [ ] `npm run compile:lessons` (refresh catalog from upstream)
+- [ ] `npm run sync:source -- <clone>` (refresh lessons, practice and projects from the pinned upstream; review the diff)
 - [ ] `cd apps/web && npm run build`
 - [ ] `DATABASE_URL` set on Vercel
 - [ ] Test `/api/health/db` after first deploy

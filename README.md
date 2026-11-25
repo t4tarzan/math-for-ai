@@ -21,7 +21,7 @@ cd apps/web && npm install && npm run dev
 cd ../.. && npm run infra:up   # requires Docker
 
 # Recompile curriculum + refresh interactive manifest
-npm run compile:lessons
+npm run sync:source -- /path/to/ai-engineering-from-scratch   # see "Lesson content" below
 
 # Add interactive lessons: edit scripts/build-interactive-lessons.mjs, then:
 node scripts/build-interactive-lessons.mjs

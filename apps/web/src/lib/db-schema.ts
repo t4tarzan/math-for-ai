@@ -39,6 +39,14 @@ async function runMigrations() {
         state JSONB NOT NULL DEFAULT '{}',
         updated_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
       );
+
+      -- Signed-out learners: progress keyed by an anonymous browser device id.
+      -- Serverless hosts (Vercel) have no durable disk, so this replaces .data/progress there.
+      CREATE TABLE IF NOT EXISTS device_progress (
+        device_id TEXT PRIMARY KEY,
+        state JSONB NOT NULL DEFAULT '{}',
+        updated_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
+      );
     `);
   } finally {
     client.release();

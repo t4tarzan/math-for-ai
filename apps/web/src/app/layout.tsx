@@ -1,30 +1,31 @@
 import type { Metadata } from "next";
-import { JetBrains_Mono, Source_Serif_4, VT323 } from "next/font/google";
+import { Inter, JetBrains_Mono, Source_Serif_4 } from "next/font/google";
+import "katex/dist/katex.min.css";
 import { AnalyticsProvider } from "@/components/providers/AnalyticsProvider";
 import { ClerkProvider } from "@clerk/nextjs";
 import { ProgressBootstrap } from "@/components/gamification/ProgressBootstrap";
 import "./globals.css";
 
-const display = VT323({
-  weight: "400",
+// Headlines in a bookish serif (the field guide's voice), body in Inter, code in JetBrains Mono.
+const display = Source_Serif_4({
   subsets: ["latin"],
-  variable: "--font-display",
+  variable: "--font-serif",
 });
 
-const body = Source_Serif_4({
+const body = Inter({
   subsets: ["latin"],
-  variable: "--font-body",
+  variable: "--font-sans",
 });
 
 const mono = JetBrains_Mono({
   subsets: ["latin"],
-  variable: "--font-mono",
+  variable: "--font-code",
 });
 
 export const metadata: Metadata = {
-  title: "Math for AI — Learn, build, deploy",
+  title: "Math for AI — the math behind every AI system, learned by building",
   description:
-    "Unified AI engineering platform. Read lessons, build in-browser, deploy real SaaS — from math foundations to capstone projects.",
+    "542 lessons from vectors to agent harnesses: read, run the code, pass the quiz, then build and host capstones on a local AWS emulator.",
 };
 
 export default function RootLayout({
@@ -33,7 +34,15 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <ClerkProvider signInUrl="/signin" signUpUrl="/signup">
+    <ClerkProvider
+      signInUrl="/signin"
+      signUpUrl="/signup"
+      appearance={{ variables: { colorPrimary: "#4b44d6", borderRadius: "0.75rem" } }}
+      localization={{
+        signIn: { start: { title: "Sign in to Math for AI", subtitle: "Continue with Google or your email" } },
+        signUp: { start: { title: "Create your Math for AI account", subtitle: "Free to start. Continue with Google or your email" } },
+      }}
+    >
       <html lang="en" className={`${display.variable} ${body.variable} ${mono.variable} h-full`}>
         <body className="min-h-full font-body antialiased">
           <AnalyticsProvider>

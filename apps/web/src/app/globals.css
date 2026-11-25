@@ -1,37 +1,59 @@
 @import "tailwindcss";
 
+/*
+ * Math for AI: light mode only (operator, 2026-11-25).
+ * Look: MatchFoundry's paper + white cards on the outside, llm.wntap.org's ruled-paper
+ * reading surface on the inside. One accent per course part:
+ *   Part I (classic ML) indigo · Part II (LLM inference) green · Part III (agent harness) amber.
+ */
 :root {
-  --font-display: var(--font-display), ui-monospace, monospace;
-  --font-body: var(--font-body), Georgia, serif;
-  --font-mono: var(--font-mono), ui-monospace, monospace;
+  color-scheme: light;
 
-  --bg: #fafaf5;
-  --bg-surface: #f3f1e8;
-  --bg-surface-hover: #ece9dc;
-  --ink: #1a1a1a;
-  --ink-soft: #4a4a4a;
-  --ink-mute: #7a7a78;
-  --rule-soft: rgba(26, 26, 26, 0.16);
+  --font-display: var(--font-serif), Georgia, serif;
+  --font-body: var(--font-sans), ui-sans-serif, system-ui, sans-serif;
+  --font-mono: var(--font-code), ui-monospace, monospace;
 
-  --blueprint: #3553ff;
-  --blueprint-tint: rgba(53, 83, 255, 0.08);
-  --blueprint-tint-strong: rgba(53, 83, 255, 0.18);
-  --accent-hover: #2840d6;
+  --bg: #f6f5f0;
+  --bg-surface: #ffffff;
+  --bg-surface-hover: #fbfaf6;
+  --bg-sunk: #f0efe8;
+  --ink: #16181d;
+  --ink-soft: #454a55;
+  --ink-mute: #7c808a;
+  --rule: rgba(22, 24, 29, 0.1);
+  --rule-soft: rgba(22, 24, 29, 0.1);
+  --rule-strong: rgba(22, 24, 29, 0.18);
+
+  --blueprint: #4b44d6;
+  --blueprint-tint: rgba(75, 68, 214, 0.07);
+  --blueprint-tint-strong: rgba(75, 68, 214, 0.16);
+  --accent-hover: #3b35b8;
+
+  --part1: #4b44d6;
+  --part1-tint: #eeedfc;
+  --part2: #0f7a5c;
+  --part2-tint: #e6f4ef;
+  --part3: #b4590c;
+  --part3-tint: #fbefe2;
 
   --warn: #b8870f;
-  --code-bg: #efece0;
-  --header-bg: rgba(250, 250, 245, 0.94);
-  --shadow-hard: 3px 3px 0 #1a1a1a;
+  --code-bg: #f1f0ea;
+  --header-bg: rgba(246, 245, 240, 0.86);
+  --shadow-card: 0 1px 2px rgba(22, 24, 29, 0.05), 0 8px 24px -12px rgba(22, 24, 29, 0.12);
+  --shadow-lift: 0 2px 4px rgba(22, 24, 29, 0.06), 0 18px 40px -16px rgba(22, 24, 29, 0.22);
+  --shadow-hard: var(--shadow-card);
 }
 
 @theme inline {
   --font-sans: var(--font-body);
   --font-mono: var(--font-mono);
+  --font-serif: var(--font-display);
 }
 
 body {
   background: var(--bg);
   color: var(--ink);
+  font-family: var(--font-body);
 }
 
 html {
@@ -43,22 +65,57 @@ section[id],
   scroll-margin-top: 5rem;
 }
 
-/* Card hover lift — pair with the hard-shadow blueprint look */
+/* Ruled-paper background (llm.wntap.org) for reading surfaces */
+.paper-ruled {
+  background-color: var(--bg);
+  background-image: repeating-linear-gradient(
+    to bottom,
+    transparent 0,
+    transparent 27px,
+    rgba(22, 24, 29, 0.035) 27px,
+    rgba(22, 24, 29, 0.035) 28px
+  );
+}
+
+/* The one card surface used everywhere */
+.card {
+  background: var(--bg-surface);
+  border: 1px solid var(--rule);
+  border-radius: 1rem;
+  box-shadow: var(--shadow-card);
+}
+
 .card-lift {
   transition:
-    transform 150ms ease,
-    box-shadow 150ms ease;
+    transform 180ms ease,
+    box-shadow 180ms ease,
+    border-color 180ms ease;
 }
 
 .card-lift:hover {
   transform: translateY(-2px);
-  box-shadow: 5px 5px 0 #1a1a1a;
+  box-shadow: var(--shadow-lift);
+  border-color: var(--rule-strong);
 }
 
-@media (prefers-color-scheme: dark) {
-  .card-lift:hover {
-    box-shadow: 5px 5px 0 #e8e6dc;
-  }
+/* Small pill (chips, tags, tabs) */
+.pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  border: 1px solid var(--rule-strong);
+  border-radius: 999px;
+  background: var(--bg-surface);
+  padding: 0.3rem 0.8rem;
+  font-size: 0.8125rem;
+  color: var(--ink-soft);
+}
+
+.eyebrow {
+  font-family: var(--font-mono);
+  font-size: 0.6875rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
 }
 
 /* Nav link underline slide */
@@ -84,7 +141,30 @@ section[id],
   transform: scaleX(1);
 }
 
-/* One-time hero entrance (applied after mount via Reveal) */
+/* Range inputs inside equation labs */
+.lab-range {
+  width: 100%;
+  accent-color: var(--lab-accent, var(--blueprint));
+}
+
+/* KaTeX: keep display formulas from forcing horizontal scroll on phones */
+.formula .katex-display {
+  margin: 0;
+  overflow-x: auto;
+  overflow-y: hidden;
+  padding: 0.25rem 0;
+}
+
+.formula .katex {
+  font-size: 1.28em;
+}
+
+@media (max-width: 480px) {
+  .formula .katex {
+    font-size: 1.02em;
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   html {
     scroll-behavior: auto;
@@ -94,11 +174,7 @@ section[id],
   .card-lift:hover,
   .link-underline::after {
     transition: none;
-  }
-
-  .card-lift:hover {
     transform: none;
-    box-shadow: var(--shadow-hard);
   }
 }
 
@@ -112,22 +188,4 @@ section[id],
 
 .font-mono {
   font-family: var(--font-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --bg: #0a0d1a;
-    --bg-surface: #131830;
-    --ink: #e8e6dc;
-    --ink-soft: #a8a6a0;
-    --ink-mute: #7a7878;
-    --rule-soft: rgba(232, 230, 220, 0.18);
-    --blueprint: #6b8eff;
-    --blueprint-tint: rgba(107, 142, 255, 0.12);
-    --blueprint-tint-strong: rgba(107, 142, 255, 0.22);
-    --accent-hover: #8aa5ff;
-    --code-bg: #131830;
-    --header-bg: rgba(10, 13, 26, 0.94);
-    --shadow-hard: 3px 3px 0 #e8e6dc;
-  }
 }

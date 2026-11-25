@@ -2,7 +2,6 @@ import Link from "next/link";
 import catalog from "@/content/lessons/catalog.json";
 import { LessonsCatalog } from "@/components/marketing/LessonsCatalog";
 import { SiteHeader } from "@/components/marketing/SiteHeader";
-import { Button } from "@/components/ui/button";
 import { Reveal } from "@/components/ui/Reveal";
 import { DEFAULT_LESSON_ID } from "@/lib/lessons";
 import type { LessonCatalogEntry } from "@/lib/lesson-types";
@@ -25,14 +24,17 @@ export default function LessonsPage() {
   return (
     <div className="min-h-screen bg-[var(--bg)] text-[var(--ink)]">
       <SiteHeader>
-        <Link href={`/demo/${DEFAULT_LESSON_ID}`}>
-          <Button size="sm">Start Phase 0</Button>
+        <Link
+          href={`/demo/${DEFAULT_LESSON_ID}`}
+          className="hidden rounded-full border border-[var(--rule-strong)] bg-white px-3 py-1.5 text-sm font-medium hover:border-[var(--ink)] sm:inline"
+        >
+          Start Phase 0
         </Link>
       </SiteHeader>
 
-      <main className="mx-auto max-w-4xl px-6 pb-16">
+      <main className="mx-auto max-w-4xl px-4 pb-16 pt-10 sm:px-6">
         <Reveal>
-          <h1 className="font-body text-3xl font-semibold">Lesson catalog</h1>
+          <h1 className="font-display text-4xl font-bold tracking-tight">Your lessons</h1>
         </Reveal>
         <Reveal stagger={80}>
           <p className="mt-2 font-body text-[var(--ink-soft)]">

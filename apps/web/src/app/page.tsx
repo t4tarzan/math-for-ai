@@ -215,7 +215,6 @@ export default function HomePage() {
               />
               <figcaption className="mt-2 px-1 text-xs leading-relaxed text-[var(--ink-mute)]">
                 How a lesson moves through the course: read it, pass the quiz, prove it in practice, build it on the cloud lab, ship it.
-                The figure counts the full source curriculum (542 lessons); {lessons.length} are in the app today and the rest arrive with the next content sync.
               </figcaption>
             </figure>
           </Reveal>

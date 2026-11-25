@@ -68,6 +68,11 @@ export interface LessonCatalogEntry {
   phaseName: string;
   lessonNumber: number;
   interactive: boolean;
+  /** an interactive or compiled player manifest exists (/demo/<id>) */
+  hasPlayer?: boolean;
+  /** number of quiz questions in the source lesson */
+  quiz?: number;
+  minutes?: number;
   path: string;
 }
 

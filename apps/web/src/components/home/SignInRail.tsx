@@ -41,7 +41,7 @@ function Welcome() {
       >
         Continue learning <ArrowRight className="h-4 w-4" />
       </Link>
-      <Link href={`/demo/${DEFAULT_LESSON_ID}`} className="mt-2 block text-center text-sm text-[var(--ink-soft)] hover:text-[var(--ink)]">
+      <Link href={`/learn/${DEFAULT_LESSON_ID}`} className="mt-2 block text-center text-sm text-[var(--ink-soft)] hover:text-[var(--ink)]">
         or start at Phase 0
       </Link>
     </div>

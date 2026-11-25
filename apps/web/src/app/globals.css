@@ -189,3 +189,114 @@ section[id],
 .font-mono {
   font-family: var(--font-mono);
 }
+
+/* ---------------- Lesson reader (/learn) ---------------- */
+.lesson-prose {
+  color: var(--ink-soft);
+  font-size: 1.0625rem;
+  line-height: 1.75;
+  overflow-wrap: anywhere;
+}
+.lesson-prose > * + * { margin-top: 1.05em; }
+.lesson-prose h2 {
+  margin-top: 2.4em;
+  padding-top: 0.2em;
+  font-family: var(--font-display);
+  font-size: 1.7rem;
+  font-weight: 700;
+  line-height: 1.2;
+  letter-spacing: -0.01em;
+  color: var(--ink);
+}
+.lesson-prose h3 { margin-top: 1.9em; font-size: 1.2rem; font-weight: 650; color: var(--ink); }
+.lesson-prose h4 { margin-top: 1.5em; font-weight: 650; color: var(--ink); }
+.lesson-prose > h2:first-child { margin-top: 0; }
+.lesson-prose strong { color: var(--ink); font-weight: 650; }
+.lesson-prose a { color: var(--blueprint); text-decoration: underline; text-underline-offset: 3px; text-decoration-thickness: 1px; }
+.lesson-prose ul { list-style: disc; padding-left: 1.4em; }
+.lesson-prose ol { list-style: decimal; padding-left: 1.4em; }
+.lesson-prose li + li { margin-top: 0.35em; }
+.lesson-prose li::marker { color: var(--ink-mute); }
+.lesson-prose blockquote {
+  border-left: 3px solid var(--blueprint);
+  background: var(--blueprint-tint);
+  border-radius: 0 0.75rem 0.75rem 0;
+  padding: 0.8em 1.1em;
+  color: var(--ink);
+}
+.lesson-prose hr { border: 0; border-top: 1px solid var(--rule); margin: 2em 0; }
+.lesson-prose img {
+  max-width: 100%;
+  height: auto;
+  margin-inline: auto;
+  border-radius: 0.75rem;
+  border: 1px solid var(--rule);
+  background: #fff;
+}
+.lesson-prose :not(pre) > code {
+  font-family: var(--font-mono);
+  font-size: 0.86em;
+  background: var(--code-bg);
+  border: 1px solid var(--rule);
+  border-radius: 0.35rem;
+  padding: 0.08em 0.35em;
+  color: var(--ink);
+}
+.lesson-code {
+  border: 1px solid var(--rule);
+  border-radius: 0.85rem;
+  overflow: hidden;
+  background: #fbfaf6;
+}
+.lesson-code-head {
+  font-family: var(--font-mono);
+  font-size: 0.6875rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--ink-mute);
+  padding: 0.45rem 0.9rem;
+  border-bottom: 1px solid var(--rule);
+  background: var(--bg-sunk);
+}
+.lesson-code pre, .code-file pre {
+  margin: 0;
+  padding: 0.9rem 1rem;
+  overflow-x: auto;
+  font-family: var(--font-mono);
+  font-size: 0.8125rem;
+  line-height: 1.6;
+  color: #23262d;
+  tab-size: 4;
+}
+.lesson-table { overflow-x: auto; border: 1px solid var(--rule); border-radius: 0.85rem; background: #fff; }
+.lesson-table table { width: 100%; border-collapse: collapse; font-size: 0.9rem; }
+.lesson-table th, .lesson-table td { padding: 0.55rem 0.8rem; border-bottom: 1px solid var(--rule); vertical-align: top; text-align: left; }
+.lesson-table th { background: var(--bg-sunk); color: var(--ink); font-weight: 600; font-size: 0.8rem; }
+.lesson-table tr:last-child td { border-bottom: 0; }
+.lesson-math {
+  overflow-x: auto;
+  overflow-y: hidden;
+  padding: 0.6rem 1rem;
+  border-left: 3px solid var(--blueprint);
+  background: var(--bg-sunk);
+  border-radius: 0 0.75rem 0.75rem 0;
+}
+.lesson-math .katex-display { margin: 0.4em 0; }
+.lesson-figure-link {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 0.35rem 0.8rem;
+  border: 1px dashed var(--rule-strong);
+  border-radius: 0.85rem;
+  padding: 0.75rem 1rem;
+  background: #fff;
+  text-decoration: none !important;
+}
+.lesson-figure-link:hover { border-color: var(--blueprint); }
+.lf-kicker { font-family: var(--font-mono); font-size: 0.6875rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--ink-mute); }
+.lf-id { font-family: var(--font-mono); font-size: 0.8rem; color: var(--ink); }
+.lf-cta { margin-left: auto; font-size: 0.85rem; color: var(--blueprint); }
+.lesson-mermaid { border: 1px solid var(--rule); border-radius: 0.85rem; background: #fff; padding: 1rem; overflow-x: auto; }
+.lesson-mermaid pre.mermaid-src { font-family: var(--font-mono); font-size: 0.75rem; color: var(--ink-mute); white-space: pre-wrap; }
+.lesson-mermaid svg { max-width: 100%; height: auto; margin-inline: auto; display: block; }

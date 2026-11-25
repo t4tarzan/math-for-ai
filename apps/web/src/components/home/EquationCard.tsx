@@ -77,7 +77,7 @@ export function EquationCard({
                 <p className="eyebrow flex items-center gap-1.5 text-[var(--ink-mute)]">
                   <BookOpen className="h-3.5 w-3.5" /> Taught in
                 </p>
-                <Link href={`/demo/${eq.lessonId}`} className="link-underline mt-1 inline-block font-medium text-[var(--ink)]">
+                <Link href={`/learn/${eq.lessonId}`} className="link-underline mt-1 inline-block font-medium text-[var(--ink)]">
                   {lessonTitle ?? eq.lessonId}
                 </Link>
               </div>
@@ -88,7 +88,7 @@ export function EquationCard({
               </p>
               <div className="mt-1 flex flex-wrap gap-1.5">
                 {eq.capstones.map((c) => (
-                  <Link key={c.id} href={`/demo/${c.id}`} className="pill hover:border-[var(--lab-accent)] hover:text-[var(--lab-accent)]">
+                  <Link key={c.id} href={`/learn/${c.id}`} className="pill hover:border-[var(--lab-accent)] hover:text-[var(--lab-accent)]">
                     {c.title}
                   </Link>
                 ))}
@@ -103,7 +103,7 @@ export function EquationCard({
               }
             >
               <Link
-                href={`/demo/${eq.lessonId ?? eq.capstones[0].id}`}
+                href={`/learn/${eq.lessonId ?? eq.capstones[0].id}`}
                 className="inline-flex items-center gap-1 self-end text-sm font-semibold text-[var(--lab-accent)]"
               >
                 Open the lesson <ArrowRight className="h-4 w-4" />

@@ -29,7 +29,8 @@ async function loadLesson(lessonId: string): Promise<Lesson | null> {
 }
 
 export async function generateStaticParams() {
-  return catalog.lessons.map((l) => ({ lessonId: l.id }));
+  // the step-by-step player exists only for lessons with an interactive or compiled manifest
+  return catalog.lessons.filter((l) => l.hasPlayer).map((l) => ({ lessonId: l.id }));
 }
 
 export async function generateMetadata({ params }: PageProps) {

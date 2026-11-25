@@ -69,3 +69,14 @@ math-for-ai/
 ├── overlays/              # harness, intent, deploy manifests (TBD)
 └── docs/
 ```
+
+## Lesson content (synced from the source curriculum)
+
+Lessons, quizzes and code come from [ai-engineering-from-scratch](https://github.com/rohitg00/ai-engineering-from-scratch) (MIT), pinned to one commit:
+
+```bash
+git clone https://github.com/rohitg00/ai-engineering-from-scratch /tmp/aiefs   # or git -C /tmp/aiefs pull
+node scripts/sync-source.mjs --from /tmp/aiefs
+```
+
+This rewrites `apps/web/src/content/source/` (manifest with the commit, one JSON per lesson, the source LICENSE) and `apps/web/src/content/lessons/catalog.json`. Lesson ids stay stable so saved progress keeps working. Review the diff, then commit. The reader at `/learn/<id>` renders the markdown on the server (`src/lib/source-render.ts`: raw HTML escaped, KaTeX, mermaid, figure links).

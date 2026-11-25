@@ -25,7 +25,7 @@ export default function LessonsPage() {
     <div className="min-h-screen bg-[var(--bg)] text-[var(--ink)]">
       <SiteHeader>
         <Link
-          href={`/demo/${DEFAULT_LESSON_ID}`}
+          href={`/learn/${DEFAULT_LESSON_ID}`}
           className="hidden rounded-full border border-[var(--rule-strong)] bg-white px-3 py-1.5 text-sm font-medium hover:border-[var(--ink)] sm:inline"
         >
           Start Phase 0

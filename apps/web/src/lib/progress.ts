@@ -19,6 +19,14 @@ export interface LessonProgress {
   attempts: number;
   firstPassAt: number | null;
   xpEarned: number;
+  /** best quiz score per stage, from the source curriculum's quiz.json */
+  quiz?: { pre?: QuizScore; post?: QuizScore };
+}
+
+export interface QuizScore {
+  correct: number;
+  total: number;
+  at: number;
 }
 
 export interface ProgressState {
@@ -242,4 +250,41 @@ export function mergeRemoteProgress(remote: ProgressState) {
   const local = readProgress();
   const merged = mergeProgressStates(local, remote);
   writeProgress(merged, { skipSync: true });
+}
+
+/** XP for passing a lesson's check-yourself quiz (>= 70%), once per lesson. */
+export const XP_QUIZ_PASS = 15;
+
+/**
+ * Record a quiz attempt. Keeps the best score per stage. Passing the post-lesson quiz
+ * for the first time awards XP and marks the lesson complete.
+ */
+export function recordQuiz(
+  lessonId: string,
+  stage: "pre" | "post",
+  correct: number,
+  total: number,
+  opts?: { phaseId?: number; phaseLessonIds?: Record<number, string[]> },
+): { passed: boolean; xpAwarded: number } {
+  const state = readProgress();
+  const lesson = touchLesson(state, lessonId);
+  const prev = lesson.quiz?.[stage];
+  const quiz = { ...(lesson.quiz ?? {}) };
+  if (!prev || correct > prev.correct) quiz[stage] = { correct, total, at: Date.now() };
+  lesson.quiz = quiz;
+  lesson.visitedAt = Date.now();
+  const passed = stage === "post" && total > 0 && correct / total >= 0.7;
+  let xpAwarded = 0;
+  if (passed && !lesson.completedAt) {
+    xpAwarded = XP_QUIZ_PASS;
+    state.xp += xpAwarded;
+    lesson.xpEarned += xpAwarded;
+  }
+  writeProgress(state);
+  if (passed) markLessonComplete(lessonId, opts);
+  return { passed, xpAwarded };
+}
+
+export function getQuizScores(lessonId: string) {
+  return readProgress().lessons[lessonId]?.quiz;
 }

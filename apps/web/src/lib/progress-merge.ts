@@ -57,6 +57,7 @@ export function mergeProgressStates(local: ProgressState, remote: ProgressState)
       workspaceFiles: pickLocal
         ? localLesson.workspaceFiles
         : remoteLesson.workspaceFiles ?? localLesson.workspaceFiles,
+      quiz: mergeQuiz(localLesson.quiz, remoteLesson.quiz),
     };
   }
 
@@ -73,4 +74,13 @@ export function parseProgressState(raw: unknown): ProgressState | null {
     badges: o.badges ?? [],
     questsCompleted: o.questsCompleted ?? [],
   };
+}
+
+type QuizRecord = LessonProgress["quiz"];
+function mergeQuiz(a: QuizRecord, b: QuizRecord): QuizRecord {
+  if (!a) return b;
+  if (!b) return a;
+  const best = (x?: { correct: number }, y?: { correct: number }) =>
+    !x ? y : !y ? x : y.correct > x.correct ? y : x;
+  return { pre: best(a.pre, b.pre) as typeof a.pre, post: best(a.post, b.post) as typeof a.post };
 }

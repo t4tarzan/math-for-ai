@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { JetBrains_Mono, Source_Serif_4, VT323 } from "next/font/google";
 import { AnalyticsProvider } from "@/components/providers/AnalyticsProvider";
-import { AuthProvider } from "@/components/auth/AuthProvider";
+import { ClerkProvider } from "@clerk/nextjs";
 import { ProgressBootstrap } from "@/components/gamification/ProgressBootstrap";
 import "./globals.css";
 
@@ -33,15 +33,15 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={`${display.variable} ${body.variable} ${mono.variable} h-full`}>
-      <body className="min-h-full font-body antialiased">
-        <AnalyticsProvider>
-          <AuthProvider>
+    <ClerkProvider signInUrl="/signin" signUpUrl="/signup">
+      <html lang="en" className={`${display.variable} ${body.variable} ${mono.variable} h-full`}>
+        <body className="min-h-full font-body antialiased">
+          <AnalyticsProvider>
             <ProgressBootstrap />
             {children}
-          </AuthProvider>
-        </AnalyticsProvider>
-      </body>
-    </html>
+          </AnalyticsProvider>
+        </body>
+      </html>
+    </ClerkProvider>
   );
 }

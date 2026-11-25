@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { auth } from "@/auth";
+import { getAppUserId } from "@/lib/current-user";
 import { pingDatabase, provisionLearnerWorkspace } from "@/lib/db";
 import { cookies } from "next/headers";
 import { randomUUID } from "crypto";
@@ -20,9 +20,9 @@ export async function POST() {
     );
   }
 
-  const session = await auth();
+  const appUserId = await getAppUserId();
   const jar = await cookies();
-  let learnerId = session?.user?.id ?? jar.get("m4ai_learner")?.value;
+  let learnerId = appUserId ?? jar.get("m4ai_learner")?.value;
   if (!learnerId) {
     learnerId = randomUUID();
   }
@@ -50,7 +50,7 @@ export async function POST() {
     learnerId,
   });
 
-  if (!session?.user?.id && !jar.get("m4ai_learner")?.value) {
+  if (!appUserId && !jar.get("m4ai_learner")?.value) {
     response.cookies.set("m4ai_learner", learnerId, {
       httpOnly: true,
       sameSite: "lax",

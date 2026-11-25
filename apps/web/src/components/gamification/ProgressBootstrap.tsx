@@ -1,30 +1,22 @@
 "use client";
 
-import { useSession } from "next-auth/react";
-import { useEffect, useRef } from "react";
+import { useAuth } from "@clerk/nextjs";
+import { useEffect } from "react";
 import { mergeRemoteProgress } from "@/lib/progress";
 import { pullProgressFromServer, pushProgressToServer } from "@/lib/progress-sync";
 
-/** Pull server progress on mount; re-sync when user signs in. */
+/** Pull server progress once Clerk has loaded; push local progress whenever the learner is signed in. */
 export function ProgressBootstrap() {
-  const { status } = useSession();
-  const lastStatus = useRef<string>("loading");
+  const { isLoaded, isSignedIn } = useAuth();
 
   useEffect(() => {
-    if (status === "loading") return;
-
-    const signedInNow = status === "authenticated" && lastStatus.current !== "authenticated";
-
+    if (!isLoaded) return;
     void (async () => {
       const remote = await pullProgressFromServer();
       if (remote) mergeRemoteProgress(remote);
-      if (signedInNow || status === "authenticated") {
-        await pushProgressToServer();
-      }
+      if (isSignedIn) await pushProgressToServer();
     })();
-
-    lastStatus.current = status;
-  }, [status]);
+  }, [isLoaded, isSignedIn]);
 
   return null;
 }

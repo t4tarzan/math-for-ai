@@ -40,6 +40,9 @@ async function runMigrations() {
         updated_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
       );
 
+      -- Sign-in moved to Clerk (2026-11-25): each row is linked to one Clerk user.
+      ALTER TABLE users ADD COLUMN IF NOT EXISTS clerk_id TEXT UNIQUE;
+
       -- Signed-out learners: progress keyed by an anonymous browser device id.
       -- Serverless hosts (Vercel) have no durable disk, so this replaces .data/progress there.
       CREATE TABLE IF NOT EXISTS device_progress (

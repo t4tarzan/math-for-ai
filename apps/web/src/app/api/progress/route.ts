@@ -1,7 +1,7 @@
 import { mkdir, readFile, writeFile } from "fs/promises";
 import path from "path";
 import { NextResponse } from "next/server";
-import { auth } from "@/auth";
+import { getAppUserId } from "@/lib/current-user";
 import { parseProgressState } from "@/lib/progress-merge";
 import type { ProgressState } from "@/lib/progress";
 import { getUserProgress, saveUserProgress } from "@/lib/progress-server";
@@ -61,10 +61,21 @@ async function saveDeviceProgress(deviceId: string, state: ProgressState): Promi
   return syncedAt;
 }
 
+/** Signed-in learner id, or a JSON 503 when the database cannot be reached (never an empty 500). */
+async function resolveUser(): Promise<{ userId: string | null; error?: NextResponse }> {
+  try {
+    return { userId: await getAppUserId() };
+  } catch (e) {
+    const msg = e instanceof Error ? e.message : "database unavailable";
+    return { userId: null, error: NextResponse.json({ ok: false, error: msg }, { status: 503 }) };
+  }
+}
+
 export async function GET(req: Request) {
-  const session = await auth();
-  if (session?.user?.id) {
-    const state = await getUserProgress(session.user.id);
+  const { userId, error } = await resolveUser();
+  if (error) return error;
+  if (userId) {
+    const state = await getUserProgress(userId);
     return NextResponse.json({ ok: true, state, authenticated: true });
   }
 
@@ -94,10 +105,11 @@ export async function POST(req: Request) {
     return NextResponse.json({ ok: false, error: "Invalid progress state" }, { status: 400 });
   }
 
-  const session = await auth();
-  if (session?.user?.id) {
+  const { userId, error } = await resolveUser();
+  if (error) return error;
+  if (userId) {
     try {
-      const syncedAt = await saveUserProgress(session.user.id, parsed);
+      const syncedAt = await saveUserProgress(userId, parsed);
       return NextResponse.json({ ok: true, syncedAt, authenticated: true });
     } catch (e) {
       const msg = e instanceof Error ? e.message : "write failed";

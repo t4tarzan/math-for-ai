@@ -1,0 +1,26 @@
+{
+ "L0": [
+  "Write down what we are building, have fresh reviewers attack it, and get the operator's decisions. The first design (our own machines for every learner) was judged too risky; the operator chose GitHub Codespaces for the hosted lab and self-checked grading."
+ ],
+ "L1": [
+  "Prove on our own machine that Floci, the free emulator of Amazon's cloud, runs every service the chatbot capstone needs, including model calls through our proxy. Decide, stage by stage, what to do if a service falls short."
+ ],
+ "L2": [
+  "Write the capstone itself: a chatbot that answers questions from documents with citations, built in six stages, with an automatic checker. Prove the checker with a private reference solution and with deliberately broken versions."
+ ],
+ "L3": [
+  "Package the lab as one ready-made development environment. It opens in the browser through GitHub Codespaces (nothing to install) or runs on the learner's own laptop with Docker."
+ ],
+ "L4": [
+  "Let the learner's code call a real AI model the way it would call Amazon Bedrock, through a small service on our website that holds the key, with a spending limit per learner and for the month."
+ ],
+ "L5": [
+  "Put it in the course website: the guides, a Start lab button, a personal lab token, and a way to bring the checker's results back for XP and a completed capstone, clearly marked self-checked."
+ ],
+ "L6": [
+  "A simple view of what the model calls cost, and a switch for the monthly ceiling."
+ ],
+ "L7": [
+  "Three people do the whole capstone, at least one in Codespaces and one on a laptop; we measure time and cost, fix what hurts, get one more fresh review, and the operator decides when to open it."
+ ]
+}

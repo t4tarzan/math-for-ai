@@ -14,3 +14,4 @@ data/
 apps/web/public/pyodide/
 .idea/
 .vscode/
+runtime/

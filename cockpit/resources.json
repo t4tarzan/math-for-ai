@@ -1,0 +1,19 @@
+{
+ "docs": [
+  {"label": "Design (decisions §9)", "path": "docs/LABS-DESIGN.md"},
+  {"label": "Plan of record", "path": "docs/LABS-ARC.md"},
+  {"label": "Architecture", "path": "docs/LABS-ARCHITECTURE.md"},
+  {"label": "Buildplan mirror", "path": "docs/LABS-BUILDPLAN.md"},
+  {"label": "Recce (source repo, Floci, capstones)", "path": "docs/RECCE-2026-11-25.md"}
+ ],
+ "code": [
+  {"label": "Plan script", "path": "bin/labplan.py"},
+  {"label": "App", "path": "apps/web"},
+  {"label": "Content sync", "path": "scripts/sync-source.mjs"}
+ ],
+ "live": [
+  {"label": "math.wntap.org", "url": "https://math.wntap.org"},
+  {"label": "Floci (upstream)", "url": "https://github.com/floci-io/floci"},
+  {"label": "Source capstone 08", "url": "https://aiengineeringfromscratch.com/learn/capstone-projects/production-rag-chatbot"}
+ ]
+}

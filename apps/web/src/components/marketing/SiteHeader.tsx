@@ -21,6 +21,12 @@ export function SiteHeader({ children, className }: SiteHeaderProps) {
           <Link href="/#catalogue" className="hidden rounded-full px-3 py-1.5 text-sm text-[var(--ink-soft)] hover:bg-white hover:text-[var(--ink)] md:inline">
             Catalogue
           </Link>
+          <Link href="/practice" className="hidden rounded-full px-3 py-1.5 text-sm text-[var(--ink-soft)] hover:bg-white hover:text-[var(--ink)] md:inline">
+            Practice
+          </Link>
+          <Link href="/projects" className="hidden rounded-full px-3 py-1.5 text-sm text-[var(--ink-soft)] hover:bg-white hover:text-[var(--ink)] md:inline">
+            Projects
+          </Link>
           <Link href="/lessons" className="hidden rounded-full px-3 py-1.5 sm:inline text-sm text-[var(--ink-soft)] hover:bg-white hover:text-[var(--ink)]">
             Lessons
           </Link>

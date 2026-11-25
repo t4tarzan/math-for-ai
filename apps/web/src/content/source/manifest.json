@@ -2,7 +2,7 @@
  "repo": "rohitg00/ai-engineering-from-scratch",
  "sha": "9712e323fde8cb2ec933310ac619e920e8e31017",
  "committedAt": "2026-11-18T10:49:28Z",
- "syncedAt": "2026-11-25T16:16:51.338Z",
+ "syncedAt": "2026-11-25T17:17:13.480Z",
  "license": "MIT",
  "phases": [
   {
@@ -5024,6 +5024,2120 @@
    "minutes": 90,
    "quiz": 6,
    "code": 4
+  }
+ ],
+ "practice": [
+  {
+   "id": "adam-step",
+   "title": "Adam and AdamW step",
+   "summary": "One Adam update with bias correction and a step counter that starts at 1, plus AdamW decoupled weight decay, as a pure function of the state.",
+   "kind": "implement",
+   "difficulty": "medium",
+   "tags": [
+    "optimizers",
+    "adam",
+    "weight-decay"
+   ],
+   "minutes": 25,
+   "lessonId": "06-optimizers",
+   "collections": [
+    "optimizers",
+    "deep-learning-core"
+   ]
+  },
+  {
+   "id": "batch-norm",
+   "title": "Batch normalization forward and backward",
+   "summary": "Training and inference forward passes with running statistics, and the full backward pass for x, gamma and beta.",
+   "kind": "implement",
+   "difficulty": "hard",
+   "tags": [
+    "batch-norm",
+    "normalization",
+    "gradients",
+    "backpropagation"
+   ],
+   "minutes": 45,
+   "lessonId": "07-regularization",
+   "collections": [
+    "deep-learning-core"
+   ]
+  },
+  {
+   "id": "beam-search",
+   "title": "Beam search with EOS and length normalization",
+   "summary": "Keep the best beam_width partial sequences over a step function, finish beams at EOS, and rank them with a length penalty.",
+   "kind": "implement",
+   "difficulty": "hard",
+   "tags": [
+    "beam-search",
+    "decoding",
+    "seq2seq",
+    "llm-inference"
+   ],
+   "minutes": 45,
+   "lessonId": "09-sequence-to-sequence",
+   "collections": [
+    "llm-inference"
+   ]
+  },
+  {
+   "id": "bm25",
+   "title": "BM25 ranking",
+   "summary": "Score tokenized documents against a query with BM25: the lesson idf, term frequency saturation with k1, length normalization with b, and a ranked list.",
+   "kind": "implement",
+   "difficulty": "medium",
+   "tags": [
+    "bm25",
+    "information-retrieval",
+    "sparse-retrieval",
+    "ranking"
+   ],
+   "minutes": 25,
+   "lessonId": "14-information-retrieval-search",
+   "collections": [
+    "rag-building-blocks"
+   ]
+  },
+  {
+   "id": "bpe-merge-step",
+   "title": "BPE pair counts and merges",
+   "summary": "Count weighted adjacent pairs, pick the best pair with a fixed tie rule, merge it without overlap and train a BPE merge list.",
+   "kind": "implement",
+   "difficulty": "medium",
+   "tags": [
+    "tokenization",
+    "bpe",
+    "subword"
+   ],
+   "minutes": 30,
+   "lessonId": "30-bpe-tokenizer-from-scratch",
+   "collections": [
+    "llm-inference"
+   ]
+  },
+  {
+   "id": "clip-contrastive-loss",
+   "title": "CLIP symmetric contrastive loss",
+   "summary": "Normalize image and text embeddings, build the temperature-scaled similarity matrix, and compute the symmetric InfoNCE loss and its gradient.",
+   "kind": "research",
+   "difficulty": "medium",
+   "tags": [
+    "clip",
+    "contrastive-learning",
+    "loss-functions",
+    "gradients"
+   ],
+   "minutes": 30,
+   "lessonId": "18-open-vocab-clip",
+   "collections": [
+    "papers-to-code",
+    "deep-learning-core"
+   ]
+  },
+  {
+   "id": "cosine-top-k",
+   "title": "Cosine similarity top-k search",
+   "summary": "Normalize embedding rows, score queries against documents with cosine similarity, and return the top k documents with a fixed tie rule.",
+   "kind": "implement",
+   "difficulty": "easy",
+   "tags": [
+    "embeddings",
+    "cosine-similarity",
+    "vector-search",
+    "retrieval"
+   ],
+   "minutes": 15,
+   "lessonId": "04-embeddings",
+   "collections": [
+    "rag-building-blocks"
+   ]
+  },
+  {
+   "id": "ddpm-forward-noising",
+   "title": "DDPM noise schedule, closed form noising and posterior",
+   "summary": "Build the linear beta schedule and alpha bars, sample x_t from x_0 in closed form, and compute the mean and variance of q(x_{t-1} | x_t, x_0).",
+   "kind": "research",
+   "difficulty": "medium",
+   "tags": [
+    "diffusion",
+    "ddpm",
+    "generative-models",
+    "noise-schedule"
+   ],
+   "minutes": 30,
+   "lessonId": "06-diffusion-ddpm-from-scratch",
+   "collections": [
+    "papers-to-code",
+    "deep-learning-core"
+   ]
+  },
+  {
+   "id": "discounted-returns",
+   "title": "Discounted returns with episode ends",
+   "summary": "Reward-to-go returns for one episode and for a batch of joined episodes with done flags, plus return normalization.",
+   "kind": "implement",
+   "difficulty": "easy",
+   "tags": [
+    "reinforcement-learning",
+    "returns",
+    "policy-gradients"
+   ],
+   "minutes": 15,
+   "lessonId": "06-policy-gradients-reinforce",
+   "collections": [
+    "rl-basics"
+   ]
+  },
+  {
+   "id": "dpo-loss",
+   "title": "DPO loss and implicit rewards",
+   "summary": "The direct preference optimization loss, its implicit rewards and its gradient, from policy and reference log probabilities.",
+   "kind": "research",
+   "difficulty": "medium",
+   "tags": [
+    "dpo",
+    "alignment",
+    "loss-functions",
+    "gradients"
+   ],
+   "minutes": 25,
+   "lessonId": "08-dpo",
+   "collections": [
+    "papers-to-code",
+    "rl-basics"
+   ]
+  },
+  {
+   "id": "flash-attention-online-softmax",
+   "title": "Tiled attention with an online softmax",
+   "summary": "FlashAttention in numpy: a running max and a running sum over key blocks give exact attention for any block size.",
+   "kind": "research",
+   "difficulty": "hard",
+   "tags": [
+    "attention",
+    "flash-attention",
+    "softmax",
+    "numerical-stability"
+   ],
+   "minutes": 40,
+   "lessonId": "12-kv-cache-flash-attention",
+   "collections": [
+    "papers-to-code",
+    "transformers-from-scratch"
+   ]
+  },
+  {
+   "id": "focal-loss",
+   "title": "Focal loss",
+   "summary": "Binary and multi-class focal loss with gamma and alpha, from logits and without overflow, plus the binary gradient.",
+   "kind": "research",
+   "difficulty": "easy",
+   "tags": [
+    "loss-functions",
+    "focal-loss",
+    "class-imbalance",
+    "gradients"
+   ],
+   "minutes": 20,
+   "lessonId": "05-loss-functions",
+   "collections": [
+    "papers-to-code",
+    "deep-learning-core"
+   ]
+  },
+  {
+   "id": "generalized-advantage-estimation",
+   "title": "Generalized advantage estimation",
+   "summary": "TD errors and GAE advantages with gamma, lambda, done flags and a bootstrap value, plus the critic targets.",
+   "kind": "implement",
+   "difficulty": "medium",
+   "tags": [
+    "reinforcement-learning",
+    "advantages",
+    "actor-critic",
+    "ppo"
+   ],
+   "minutes": 25,
+   "lessonId": "07-actor-critic-a2c-a3c",
+   "collections": [
+    "rl-basics"
+   ]
+  },
+  {
+   "id": "gini-best-split",
+   "title": "Gini impurity and the best split",
+   "summary": "Gini impurity and the best decision tree split over all features, with midpoint thresholds, weighted child impurity and a fixed tie rule.",
+   "kind": "implement",
+   "difficulty": "hard",
+   "tags": [
+    "decision-trees",
+    "gini-impurity",
+    "classification",
+    "search"
+   ],
+   "minutes": 35,
+   "lessonId": "04-decision-trees",
+   "collections": [
+    "classical-ml"
+   ]
+  },
+  {
+   "id": "gradient-descent-linear-regression",
+   "title": "Linear regression by gradient descent",
+   "summary": "Mean squared error, its gradients for weights and bias, and a batch gradient descent loop that records the cost after each update.",
+   "kind": "implement",
+   "difficulty": "easy",
+   "tags": [
+    "linear-regression",
+    "gradient-descent",
+    "loss-functions",
+    "gradients"
+   ],
+   "minutes": 20,
+   "lessonId": "02-linear-regression",
+   "collections": [
+    "math-foundations",
+    "optimizers",
+    "classical-ml"
+   ]
+  },
+  {
+   "id": "grouped-query-attention",
+   "title": "Grouped-query attention",
+   "summary": "GQA forward with H query heads and G shared key and value groups, plus mean pooling of a multi-head checkpoint into groups.",
+   "kind": "research",
+   "difficulty": "medium",
+   "tags": [
+    "attention",
+    "gqa",
+    "transformers",
+    "kv-cache"
+   ],
+   "minutes": 30,
+   "lessonId": "03-multi-head-attention",
+   "collections": [
+    "papers-to-code",
+    "transformers-from-scratch"
+   ]
+  },
+  {
+   "id": "grpo-advantages",
+   "title": "GRPO group advantages and clipped objective",
+   "summary": "Normalize rewards within each group, estimate the KL with k3, and compute the clipped GRPO objective averaged per answer over valid tokens.",
+   "kind": "research",
+   "difficulty": "medium",
+   "tags": [
+    "grpo",
+    "reinforcement-learning",
+    "policy-gradient",
+    "kl-divergence"
+   ],
+   "minutes": 30,
+   "lessonId": "12-rl-for-games",
+   "collections": [
+    "papers-to-code",
+    "rl-basics"
+   ]
+  },
+  {
+   "id": "int8-quantization",
+   "title": "Symmetric int8 quantization",
+   "summary": "Absmax int8 quantization with one scale per tensor and one scale per row, with dequantization and a zero-row rule.",
+   "kind": "implement",
+   "difficulty": "medium",
+   "tags": [
+    "quantization",
+    "int8",
+    "inference"
+   ],
+   "minutes": 20,
+   "lessonId": "11-quantization",
+   "collections": [
+    "llm-inference"
+   ]
+  },
+  {
+   "id": "inverted-dropout",
+   "title": "Inverted dropout",
+   "summary": "Inverted dropout with a given random generator: training forward with an exact mask, backward with the same mask, identity at inference.",
+   "kind": "implement",
+   "difficulty": "easy",
+   "tags": [
+    "dropout",
+    "regularization",
+    "gradients"
+   ],
+   "minutes": 15,
+   "lessonId": "07-regularization",
+   "collections": [
+    "deep-learning-core"
+   ]
+  },
+  {
+   "id": "kmeans-step",
+   "title": "K-means assignment and update",
+   "summary": "The k-means assignment and update steps with a tie rule and an empty cluster rule, and a full run until the assignments stop changing.",
+   "kind": "implement",
+   "difficulty": "medium",
+   "tags": [
+    "clustering",
+    "k-means",
+    "unsupervised-learning",
+    "vectorization"
+   ],
+   "minutes": 25,
+   "lessonId": "07-unsupervised-learning",
+   "collections": [
+    "classical-ml"
+   ]
+  },
+  {
+   "id": "kv-cache-append",
+   "title": "Fixed-capacity KV cache",
+   "summary": "Append keys and values to a preallocated cache, attend one query over the valid prefix, and reject an append past the capacity.",
+   "kind": "implement",
+   "difficulty": "medium",
+   "tags": [
+    "kv-cache",
+    "attention",
+    "inference",
+    "transformers"
+   ],
+   "minutes": 25,
+   "lessonId": "12-kv-cache-flash-attention",
+   "collections": [
+    "transformers-from-scratch",
+    "llm-inference"
+   ]
+  },
+  {
+   "id": "lab-bias-variance",
+   "title": "Measure bias and variance",
+   "summary": "Fit polynomials of degree 1 to 12 on resampled training sets and measure bias squared, variance and test error at each degree.",
+   "kind": "lab",
+   "difficulty": "medium",
+   "tags": [
+    "bias-variance",
+    "overfitting",
+    "model-selection"
+   ],
+   "minutes": 30,
+   "lessonId": "10-bias-variance",
+   "collections": [
+    "experiment-labs",
+    "classical-ml"
+   ]
+  },
+  {
+   "id": "lab-learning-rate-sweep",
+   "title": "Sweep the learning rate",
+   "summary": "Sweep gradient descent learning rates on a seeded regression, find the best rate and the first rate that diverges, and compare with 2 over the top eigenvalue.",
+   "kind": "lab",
+   "difficulty": "easy",
+   "tags": [
+    "learning-rate",
+    "gradient-descent",
+    "optimization"
+   ],
+   "minutes": 20,
+   "lessonId": "09-learning-rate-schedules",
+   "collections": [
+    "experiment-labs",
+    "optimizers"
+   ]
+  },
+  {
+   "id": "lab-quantization-bits",
+   "title": "Sweep the quantization bit width",
+   "summary": "Sweep symmetric absmax quantization from 2 to 8 bits on weights with outliers, compare one scale per tensor with one scale per row.",
+   "kind": "lab",
+   "difficulty": "medium",
+   "tags": [
+    "quantization",
+    "inference",
+    "outliers"
+   ],
+   "minutes": 30,
+   "lessonId": "11-quantization",
+   "collections": [
+    "experiment-labs",
+    "llm-inference"
+   ]
+  },
+  {
+   "id": "lab-sampling-temperature",
+   "title": "Sweep the sampling temperature",
+   "summary": "Sweep the temperature on fixed logits, measure entropy and top 1 probability, find where entropy crosses 2 bits, and count the tokens top p keeps.",
+   "kind": "lab",
+   "difficulty": "easy",
+   "tags": [
+    "sampling",
+    "temperature",
+    "entropy",
+    "top-p"
+   ],
+   "minutes": 20,
+   "lessonId": "07-gpt-causal-language-modeling",
+   "collections": [
+    "experiment-labs",
+    "llm-inference"
+   ]
+  },
+  {
+   "id": "lab-sglang-l4-serving",
+   "title": "Read an SGLang sweep on an L4",
+   "summary": "Use real SGLang runs on an NVIDIA L4 to find the saturation point, the SLO limit, the FP8 gain and the effect of a smaller prefill chunk.",
+   "kind": "lab",
+   "difficulty": "medium",
+   "tags": [
+    "inference",
+    "serving",
+    "goodput",
+    "benchmarking"
+   ],
+   "minutes": 30,
+   "lessonId": "08-inference-metrics-goodput",
+   "collections": [
+    "experiment-labs",
+    "llm-inference"
+   ]
+  },
+  {
+   "id": "layer-norm-rms-norm",
+   "title": "LayerNorm and RMSNorm",
+   "summary": "LayerNorm with gamma and beta and RMSNorm with a weight, both over the last axis, with eps inside the square root.",
+   "kind": "implement",
+   "difficulty": "easy",
+   "tags": [
+    "layer-norm",
+    "rms-norm",
+    "normalization",
+    "transformers"
+   ],
+   "minutes": 15,
+   "lessonId": "05-full-transformer",
+   "collections": [
+    "transformers-from-scratch",
+    "deep-learning-core"
+   ]
+  },
+  {
+   "id": "logistic-regression",
+   "title": "Logistic regression from scratch",
+   "summary": "A stable sigmoid, the binary cross-entropy loss and its gradient, and a gradient descent loop that records the loss.",
+   "kind": "implement",
+   "difficulty": "medium",
+   "tags": [
+    "logistic-regression",
+    "classification",
+    "gradients",
+    "numerical-stability"
+   ],
+   "minutes": 25,
+   "lessonId": "03-logistic-regression",
+   "collections": [
+    "classical-ml"
+   ]
+  },
+  {
+   "id": "lora-forward",
+   "title": "LoRA linear layer",
+   "summary": "Forward pass of a linear layer with a low rank adapter, merge of the adapter into the weight, and the trainable parameter count.",
+   "kind": "implement",
+   "difficulty": "easy",
+   "tags": [
+    "lora",
+    "fine-tuning",
+    "linear-algebra"
+   ],
+   "minutes": 15,
+   "lessonId": "08-fine-tuning-lora",
+   "collections": [
+    "llm-inference"
+   ]
+  },
+  {
+   "id": "mixture-of-experts-gating",
+   "title": "Top-k MoE gating and the Switch load-balancing loss",
+   "summary": "Route tokens to the top k experts with renormalized softmax gates, and compute the Switch Transformer auxiliary loss E times sum f_i P_i.",
+   "kind": "research",
+   "difficulty": "medium",
+   "tags": [
+    "mixture-of-experts",
+    "routing",
+    "load-balancing",
+    "transformers"
+   ],
+   "minutes": 30,
+   "lessonId": "11-mixture-of-experts",
+   "collections": [
+    "papers-to-code",
+    "transformers-from-scratch"
+   ]
+  },
+  {
+   "id": "mlp-backprop",
+   "title": "Backpropagation through a two-layer MLP",
+   "summary": "Forward pass with a cache and a backward pass that returns the gradient of every weight and bias of a two-layer sigmoid network.",
+   "kind": "implement",
+   "difficulty": "hard",
+   "tags": [
+    "backpropagation",
+    "gradients",
+    "mlp",
+    "chain-rule"
+   ],
+   "minutes": 40,
+   "lessonId": "03-backpropagation",
+   "collections": [
+    "deep-learning-core"
+   ]
+  },
+  {
+   "id": "multi-head-split-merge",
+   "title": "Split heads, merge heads, multi-head attention",
+   "summary": "Reshape (B, T, D) into H heads and back, then run batched multi-head self-attention with given projection matrices.",
+   "kind": "implement",
+   "difficulty": "medium",
+   "tags": [
+    "attention",
+    "multi-head-attention",
+    "transformers",
+    "reshape"
+   ],
+   "minutes": 30,
+   "lessonId": "03-multi-head-attention",
+   "collections": [
+    "transformers-from-scratch"
+   ]
+  },
+  {
+   "id": "pairwise-distances",
+   "title": "Vectorized pairwise distances",
+   "summary": "Euclidean distance and cosine similarity matrices from one matrix product, with a clip at 0 and a zero-vector rule.",
+   "kind": "implement",
+   "difficulty": "medium",
+   "tags": [
+    "distances",
+    "vectorization",
+    "cosine-similarity",
+    "numerical-stability"
+   ],
+   "minutes": 20,
+   "lessonId": "14-norms-and-distances",
+   "collections": [
+    "math-foundations"
+   ]
+  },
+  {
+   "id": "power-iteration",
+   "title": "Power iteration for the top eigenpair",
+   "summary": "The top eigenvalue and eigenvector of a symmetric matrix by power iteration, with a tolerance, an iteration limit and a sign rule.",
+   "kind": "implement",
+   "difficulty": "medium",
+   "tags": [
+    "eigenvalues",
+    "power-iteration",
+    "linear-algebra",
+    "svd"
+   ],
+   "minutes": 25,
+   "lessonId": "11-singular-value-decomposition",
+   "collections": [
+    "math-foundations"
+   ]
+  },
+  {
+   "id": "ppo-clip-loss",
+   "title": "PPO clipped surrogate loss",
+   "summary": "The PPO loss to minimize from new and old log probabilities and advantages, the clip fraction, and the gradient with respect to the new log probabilities.",
+   "kind": "implement",
+   "difficulty": "medium",
+   "tags": [
+    "reinforcement-learning",
+    "ppo",
+    "policy-gradient",
+    "gradients"
+   ],
+   "minutes": 25,
+   "lessonId": "08-ppo",
+   "collections": [
+    "rl-basics"
+   ]
+  },
+  {
+   "id": "q-learning-update",
+   "title": "Q-learning and SARSA updates",
+   "summary": "One tabular Q-learning or SARSA update with no bootstrap at a terminal step, and epsilon-greedy actions from a seeded rng with lowest-index ties.",
+   "kind": "implement",
+   "difficulty": "easy",
+   "tags": [
+    "reinforcement-learning",
+    "q-learning",
+    "sarsa",
+    "exploration"
+   ],
+   "minutes": 15,
+   "lessonId": "04-q-learning-sarsa",
+   "collections": [
+    "rl-basics"
+   ]
+  },
+  {
+   "id": "reciprocal-rank-fusion",
+   "title": "Reciprocal rank fusion",
+   "summary": "Merge several ranked lists of document ids into one ranking with reciprocal rank fusion, optional list weights and a fixed tie rule.",
+   "kind": "implement",
+   "difficulty": "easy",
+   "tags": [
+    "rank-fusion",
+    "hybrid-retrieval",
+    "ranking",
+    "retrieval"
+   ],
+   "minutes": 12,
+   "lessonId": "65-hybrid-retrieval-bm25-dense",
+   "collections": [
+    "rag-building-blocks"
+   ]
+  },
+  {
+   "id": "rectified-flow-loss",
+   "title": "Rectified flow loss and Euler sampler",
+   "summary": "Interpolate along straight paths, regress the velocity x1 - x0 with the flow matching loss, and integrate a velocity field with Euler steps.",
+   "kind": "research",
+   "difficulty": "medium",
+   "tags": [
+    "rectified-flow",
+    "flow-matching",
+    "generative-models",
+    "ode-solvers"
+   ],
+   "minutes": 25,
+   "lessonId": "13-flow-matching-rectified-flows",
+   "collections": [
+    "papers-to-code",
+    "deep-learning-core"
+   ]
+  },
+  {
+   "id": "rope",
+   "title": "Rotary position embedding",
+   "summary": "Rotate adjacent coordinate pairs of queries and keys by position times base^(-2i/d), so attention scores depend only on the position gap.",
+   "kind": "implement",
+   "difficulty": "medium",
+   "tags": [
+    "positional-encoding",
+    "rope",
+    "transformers",
+    "attention"
+   ],
+   "minutes": 25,
+   "lessonId": "04-positional-encoding",
+   "collections": [
+    "transformers-from-scratch"
+   ]
+  },
+  {
+   "id": "scaled-dot-product-attention",
+   "title": "Scaled dot-product attention with a mask",
+   "summary": "Batched softmax(QK^T / sqrt(d_k)) V with an optional boolean mask, plus the causal mask that a decoder uses.",
+   "kind": "implement",
+   "difficulty": "medium",
+   "tags": [
+    "attention",
+    "transformers",
+    "masking",
+    "softmax"
+   ],
+   "minutes": 25,
+   "lessonId": "02-self-attention-from-scratch",
+   "collections": [
+    "transformers-from-scratch"
+   ]
+  },
+  {
+   "id": "sgd-momentum",
+   "title": "SGD with momentum",
+   "summary": "One momentum update with the lesson's velocity rule, and a loop that minimizes a quadratic with or without Nesterov lookahead.",
+   "kind": "implement",
+   "difficulty": "easy",
+   "tags": [
+    "optimizers",
+    "momentum",
+    "gradient-descent"
+   ],
+   "minutes": 20,
+   "lessonId": "06-optimizers",
+   "collections": [
+    "optimizers"
+   ]
+  },
+  {
+   "id": "sinusoidal-positional-encoding",
+   "title": "Sinusoidal positional encoding",
+   "summary": "Build the sin and cos position table with interleaved columns and base 10000, and add it to a batch of token embeddings.",
+   "kind": "implement",
+   "difficulty": "easy",
+   "tags": [
+    "positional-encoding",
+    "transformers",
+    "embeddings"
+   ],
+   "minutes": 15,
+   "lessonId": "04-positional-encoding",
+   "collections": [
+    "transformers-from-scratch"
+   ]
+  },
+  {
+   "id": "softmax-cross-entropy",
+   "title": "Stable softmax and cross-entropy",
+   "summary": "Batched softmax, mean cross-entropy and its gradient, without overflow for large logits.",
+   "kind": "implement",
+   "difficulty": "easy",
+   "tags": [
+    "softmax",
+    "loss-functions",
+    "gradients",
+    "numerical-stability"
+   ],
+   "minutes": 20,
+   "lessonId": "05-loss-functions",
+   "collections": [
+    "deep-learning-core"
+   ]
+  },
+  {
+   "id": "speculative-decoding-acceptance",
+   "title": "Speculative decoding: accept, reject and resample",
+   "summary": "The min(1, p/q) acceptance rule and the residual distribution that keep speculative decoding exactly equal to the target model.",
+   "kind": "research",
+   "difficulty": "hard",
+   "tags": [
+    "speculative-decoding",
+    "sampling",
+    "inference",
+    "probability"
+   ],
+   "minutes": 35,
+   "lessonId": "16-speculative-decoding",
+   "collections": [
+    "papers-to-code",
+    "llm-inference"
+   ]
+  },
+  {
+   "id": "tool-call-parser",
+   "title": "Parse and validate tool calls",
+   "summary": "Parse tool calls from a raw model reply and validate their arguments against a JSON Schema subset with JSON pointer error paths.",
+   "kind": "implement",
+   "difficulty": "hard",
+   "tags": [
+    "tool-calling",
+    "json-schema",
+    "parsing",
+    "agents"
+   ],
+   "minutes": 50,
+   "lessonId": "21-tool-registry-schema-validation",
+   "collections": [
+    "agent-building-blocks"
+   ]
+  },
+  {
+   "id": "top-k-top-p-sampling",
+   "title": "Temperature, top-k and top-p sampling",
+   "summary": "Scale logits by temperature, keep the top k or the top p mass, renormalize, and draw one token with a seeded rng.",
+   "kind": "implement",
+   "difficulty": "medium",
+   "tags": [
+    "sampling",
+    "decoding",
+    "softmax",
+    "llm-inference"
+   ],
+   "minutes": 30,
+   "lessonId": "07-gpt-causal-language-modeling",
+   "collections": [
+    "llm-inference"
+   ]
+  },
+  {
+   "id": "train-char-bigram",
+   "title": "Train a character bigram language model",
+   "summary": "Train a table of next-character logits with gradient descent until the held-out negative log-likelihood beats a unigram model.",
+   "kind": "train",
+   "difficulty": "medium",
+   "tags": [
+    "language-model",
+    "bigram",
+    "cross-entropy",
+    "gradient-descent"
+   ],
+   "minutes": 40,
+   "lessonId": "16-text-generation-pre-transformer",
+   "collections": [
+    "train-tiny-models",
+    "llm-inference"
+   ]
+  },
+  {
+   "id": "train-sine-regression",
+   "title": "Fit a sine curve with a tanh network",
+   "summary": "Train a 1-16-1 tanh network on noisy samples of sin(x) until its held-out mean squared error against the true curve is below 0.01.",
+   "kind": "train",
+   "difficulty": "medium",
+   "tags": [
+    "regression",
+    "mlp",
+    "tanh",
+    "mse"
+   ],
+   "minutes": 35,
+   "lessonId": "04-activation-functions",
+   "collections": [
+    "train-tiny-models",
+    "deep-learning-core"
+   ]
+  },
+  {
+   "id": "train-softmax-blobs",
+   "title": "Train softmax regression on four blobs",
+   "summary": "Train multinomial logistic regression with gradient descent to reach a held-out accuracy and log loss target on four Gaussian blobs.",
+   "kind": "train",
+   "difficulty": "easy",
+   "tags": [
+    "softmax",
+    "logistic-regression",
+    "gradient-descent",
+    "log-loss"
+   ],
+   "minutes": 25,
+   "lessonId": "03-logistic-regression",
+   "collections": [
+    "train-tiny-models",
+    "classical-ml"
+   ]
+  },
+  {
+   "id": "train-spirals-mlp",
+   "title": "Train a tanh network on two spirals",
+   "summary": "Train a 2-24-24-1 tanh network with mini-batch Adam until it separates two noisy spirals with 95 percent held-out accuracy.",
+   "kind": "train",
+   "difficulty": "medium",
+   "tags": [
+    "mlp",
+    "backpropagation",
+    "adam",
+    "mini-batch"
+   ],
+   "minutes": 45,
+   "lessonId": "10-mini-framework",
+   "collections": [
+    "train-tiny-models",
+    "deep-learning-core"
+   ]
+  },
+  {
+   "id": "train-xor-mlp",
+   "title": "Train a 2-4-1 network on XOR",
+   "summary": "Train a small sigmoid network with full-batch gradient descent until it labels noisy XOR points with 95 percent held-out accuracy.",
+   "kind": "train",
+   "difficulty": "easy",
+   "tags": [
+    "mlp",
+    "backpropagation",
+    "gradient-descent",
+    "xor"
+   ],
+   "minutes": 30,
+   "lessonId": "03-backpropagation",
+   "collections": [
+    "train-tiny-models",
+    "deep-learning-core"
+   ]
+  }
+ ],
+ "collections": [
+  {
+   "id": "math-foundations",
+   "title": "Math foundations",
+   "summary": "Matrix operations, gradients and optimization written with numpy."
+  },
+  {
+   "id": "classical-ml",
+   "title": "Classical ML",
+   "summary": "The models that come before deep learning, written from the equations."
+  },
+  {
+   "id": "deep-learning-core",
+   "title": "Deep learning core",
+   "summary": "Losses, backpropagation, normalization and optimizers."
+  },
+  {
+   "id": "optimizers",
+   "title": "Optimizers",
+   "summary": "Gradient descent, momentum and Adam, one update rule at a time."
+  },
+  {
+   "id": "transformers-from-scratch",
+   "title": "Transformers from scratch",
+   "summary": "Attention, heads, positions and normalization: the parts of a transformer block."
+  },
+  {
+   "id": "llm-inference",
+   "title": "LLM inference",
+   "summary": "Tokenizers, sampling, beam search, the KV cache and LoRA."
+  },
+  {
+   "id": "rl-basics",
+   "title": "RL basics",
+   "summary": "Returns, advantages and the PPO objective."
+  },
+  {
+   "id": "rag-building-blocks",
+   "title": "RAG building blocks",
+   "summary": "Dense and sparse retrieval scores that a RAG system ranks with."
+  },
+  {
+   "id": "agent-building-blocks",
+   "title": "Agent building blocks",
+   "summary": "The parsing and validation code around an agent loop."
+  },
+  {
+   "id": "papers-to-code",
+   "title": "Papers to code",
+   "summary": "Implement the core method of a research paper and test it against the paper's equations."
+  },
+  {
+   "id": "train-tiny-models",
+   "title": "Train tiny models",
+   "summary": "Train a small model in your browser to a target score inside a step budget."
+  },
+  {
+   "id": "experiment-labs",
+   "title": "Experiment labs",
+   "summary": "Change one variable, measure the effect, and answer with numbers."
+  }
+ ],
+ "projects": [
+  {
+   "id": "agent-budget-planner",
+   "title": "Agent Budget Planner",
+   "level": 3,
+   "levelName": "Engineer",
+   "tagline": "A receipt-aware budget controller that keeps uncertain spending visible.",
+   "hours": 8,
+   "languages": [
+    "Python"
+   ],
+   "stages": 4,
+   "lessonIds": []
+  },
+  {
+   "id": "agent-trace-debugger",
+   "title": "Agent Trace Debugger",
+   "level": 3,
+   "levelName": "Engineer",
+   "tagline": "A before-and-after regression report that explains overlap, own time and failed-token spending.",
+   "hours": 8,
+   "languages": [
+    "TypeScript"
+   ],
+   "stages": 4,
+   "lessonIds": []
+  },
+  {
+   "id": "api-tutorial-runner",
+   "title": "API Tutorial Runner",
+   "level": 2,
+   "levelName": null,
+   "tagline": "Check that an API tutorial still works from its first request to its final result.",
+   "hours": 8,
+   "languages": [
+    "TypeScript"
+   ],
+   "stages": 4,
+   "lessonIds": []
+  },
+  {
+   "id": "binary-inspector",
+   "title": "Binary Inspector",
+   "level": 3,
+   "levelName": "Engineer",
+   "tagline": "A static inspector that reads ELF, PE/COFF, and Mach-O files you compiled and reports their layout, names, links, and function starts.",
+   "hours": 10,
+   "languages": [
+    "Python"
+   ],
+   "stages": 6,
+   "lessonIds": []
+  },
+  {
+   "id": "bookmark-path-organizer",
+   "title": "Bookmark Path Organizer",
+   "level": 1,
+   "levelName": null,
+   "tagline": "Make a useful reading path from saved links.",
+   "hours": 8,
+   "languages": [
+    "TypeScript"
+   ],
+   "stages": 4,
+   "lessonIds": []
+  },
+  {
+   "id": "browser-agent",
+   "title": "Browser Agent",
+   "level": 5,
+   "levelName": "Frontier",
+   "tagline": "A form-run receipt that checks the requested values before trusting the success banner.",
+   "hours": 8,
+   "languages": [
+    "TypeScript",
+    "Python"
+   ],
+   "stages": 4,
+   "lessonIds": []
+  },
+  {
+   "id": "calendar-focus-planner",
+   "title": "Calendar Focus Planner",
+   "level": 2,
+   "levelName": "Builder",
+   "tagline": "Find real free time in a calendar, place prioritized tasks, and explain which tasks do not fit.",
+   "hours": 8,
+   "languages": [
+    "TypeScript"
+   ],
+   "stages": 4,
+   "lessonIds": [
+    "01-dev-environment",
+    "09-data-management"
+   ]
+  },
+  {
+   "id": "catalog-record-linker",
+   "title": "Catalog Record Linker",
+   "level": 2,
+   "levelName": null,
+   "tagline": "Reconcile two catalogs without silently merging different things.",
+   "hours": 8,
+   "languages": [
+    "Python"
+   ],
+   "stages": 4,
+   "lessonIds": []
+  },
+  {
+   "id": "changelog-writer-from-git",
+   "title": "Changelog Writer From Git",
+   "level": 2,
+   "levelName": "Builder",
+   "tagline": "Turn conventional commit records into a stable release note.",
+   "hours": 8,
+   "languages": [
+    "Go"
+   ],
+   "stages": 4,
+   "lessonIds": [
+    "01-dev-environment",
+    "09-data-management"
+   ]
+  },
+  {
+   "id": "chart-storyboard-builder",
+   "title": "Chart Storyboard Builder",
+   "level": 2,
+   "levelName": null,
+   "tagline": "Turn a table into a visual explanation people can inspect.",
+   "hours": 8,
+   "languages": [
+    "Python"
+   ],
+   "stages": 4,
+   "lessonIds": []
+  },
+  {
+   "id": "cloud-agent-with-aws-strands",
+   "title": "Cloud Agent With AWS Strands",
+   "level": 4,
+   "levelName": "Systems",
+   "tagline": "A scoped cloud incident reader with an execution receipt for every cache hit and retry.",
+   "hours": 8,
+   "languages": [
+    "Python"
+   ],
+   "stages": 4,
+   "lessonIds": []
+  },
+  {
+   "id": "community-learning-path-finder",
+   "title": "Community Learning Path Finder",
+   "level": 3,
+   "levelName": null,
+   "tagline": "Build a learning path that explains its prerequisites and tradeoffs.",
+   "hours": 8,
+   "languages": [
+    "Python"
+   ],
+   "stages": 4,
+   "lessonIds": []
+  },
+  {
+   "id": "configuration-drift-explainer",
+   "title": "Configuration Drift Explainer",
+   "level": 2,
+   "levelName": null,
+   "tagline": "Explain why two environments resolve the same setting differently.",
+   "hours": 8,
+   "languages": [
+    "Go"
+   ],
+   "stages": 4,
+   "lessonIds": []
+  },
+  {
+   "id": "csv-repair-workbench",
+   "title": "CSV Repair Workbench",
+   "level": 1,
+   "levelName": null,
+   "tagline": "Fix messy tables without losing the original cells.",
+   "hours": 8,
+   "languages": [
+    "Python"
+   ],
+   "stages": 4,
+   "lessonIds": []
+  },
+  {
+   "id": "csv-sql-question-workbench",
+   "title": "CSV Question Workbench",
+   "level": 2,
+   "levelName": "Builder",
+   "tagline": "Ask a CSV a question, inspect the executed SQL, and keep a reproducible read-only answer receipt.",
+   "hours": 8,
+   "languages": [
+    "Python"
+   ],
+   "stages": 4,
+   "lessonIds": [
+    "01-dev-environment",
+    "09-data-management",
+    "03-structured-outputs"
+   ]
+  },
+  {
+   "id": "database-migration-rehearsal",
+   "title": "Database Migration Rehearsal",
+   "level": 3,
+   "levelName": null,
+   "tagline": "Rehearse a proposed migration on a copy and show exactly what changes.",
+   "hours": 8,
+   "languages": [
+    "Python"
+   ],
+   "stages": 4,
+   "lessonIds": []
+  },
+  {
+   "id": "dataset-contract-gate",
+   "title": "Dataset Contract Gate",
+   "level": 2,
+   "levelName": null,
+   "tagline": "Quarantine invalid records and fail ingestion on explicit dataset rules.",
+   "hours": 8,
+   "languages": [
+    "Python"
+   ],
+   "stages": 4,
+   "lessonIds": []
+  },
+  {
+   "id": "dataset-split-auditor",
+   "title": "Dataset Split Auditor",
+   "level": 1,
+   "levelName": "Starter",
+   "tagline": "A dataset gate that names the records responsible for content and incident leakage.",
+   "hours": 8,
+   "languages": [
+    "Python"
+   ],
+   "stages": 4,
+   "lessonIds": []
+  },
+  {
+   "id": "decision-tradeoff-explorer",
+   "title": "Decision Tradeoff Explorer",
+   "level": 3,
+   "levelName": null,
+   "tagline": "Show when a different priority changes the preferred option.",
+   "hours": 8,
+   "languages": [
+    "TypeScript"
+   ],
+   "stages": 4,
+   "lessonIds": []
+  },
+  {
+   "id": "desktop-control",
+   "title": "Desktop Control Backend",
+   "level": 4,
+   "levelName": "Systems",
+   "tagline": "An auditable coordinate-and-frame action runner with reproducible before/after pixel artifacts.",
+   "hours": 8,
+   "languages": [
+    "Rust"
+   ],
+   "stages": 4,
+   "lessonIds": []
+  },
+  {
+   "id": "diagram-reading-companion",
+   "title": "Diagram Reading Companion",
+   "level": 2,
+   "levelName": null,
+   "tagline": "Give a diagram an inspectable reading order and explanation.",
+   "hours": 8,
+   "languages": [
+    "TypeScript"
+   ],
+   "stages": 4,
+   "lessonIds": []
+  },
+  {
+   "id": "distributed-eval-farm",
+   "title": "Distributed Eval Farm Coordinator",
+   "level": 5,
+   "levelName": "Frontier",
+   "tagline": "Partition cases, lease shards and aggregate bounded concurrent workers.",
+   "hours": 8,
+   "languages": [
+    "Go"
+   ],
+   "stages": 4,
+   "lessonIds": []
+  },
+  {
+   "id": "doc-qa-with-citations",
+   "title": "Document QA With Citations and LangChain",
+   "level": 2,
+   "levelName": "Builder",
+   "tagline": "A citation receipt that separates exact source support from relevance to the question.",
+   "hours": 8,
+   "languages": [
+    "Python"
+   ],
+   "stages": 4,
+   "lessonIds": []
+  },
+  {
+   "id": "document-extraction-desk",
+   "title": "Document Extraction Review Desk",
+   "level": 2,
+   "levelName": "Builder",
+   "tagline": "Extract structured fields from a text document, inspect exact source spans, and approve ambiguous values before export.",
+   "hours": 8,
+   "languages": [
+    "Python"
+   ],
+   "stages": 4,
+   "lessonIds": [
+    "01-dev-environment",
+    "09-data-management"
+   ]
+  },
+  {
+   "id": "download-folder-sort-desk",
+   "title": "Download Folder Sort Desk",
+   "level": 1,
+   "levelName": null,
+   "tagline": "Turn a crowded folder into a reviewable filing plan.",
+   "hours": 8,
+   "languages": [
+    "Python"
+   ],
+   "stages": 4,
+   "lessonIds": []
+  },
+  {
+   "id": "durable-agent-jobs",
+   "title": "Durable Agent Jobs",
+   "level": 4,
+   "levelName": "Systems",
+   "tagline": "Persist job states and reject stale worker completions.",
+   "hours": 8,
+   "languages": [
+    "Go"
+   ],
+   "stages": 4,
+   "lessonIds": []
+  },
+  {
+   "id": "feedback-theme-board",
+   "title": "Feedback Theme Board",
+   "level": 2,
+   "levelName": "Builder",
+   "tagline": "Group product feedback with inspectable phrase evidence, count distinct sources, and export local issue drafts.",
+   "hours": 8,
+   "languages": [
+    "TypeScript"
+   ],
+   "stages": 4,
+   "lessonIds": [
+    "01-dev-environment",
+    "09-data-management"
+   ]
+  },
+  {
+   "id": "field-notes-map-builder",
+   "title": "Field Notes Map Builder",
+   "level": 2,
+   "levelName": null,
+   "tagline": "Turn location-tagged observations into a map another tool can use.",
+   "hours": 8,
+   "languages": [
+    "TypeScript"
+   ],
+   "stages": 4,
+   "lessonIds": []
+  },
+  {
+   "id": "glossary-hovercard-publisher",
+   "title": "Glossary Hovercard Publisher",
+   "level": 1,
+   "levelName": null,
+   "tagline": "Explain unfamiliar terms inside the page people are reading.",
+   "hours": 8,
+   "languages": [
+    "TypeScript"
+   ],
+   "stages": 4,
+   "lessonIds": []
+  },
+  {
+   "id": "harness-bench",
+   "title": "Harness Bench",
+   "level": 3,
+   "levelName": "Engineer",
+   "tagline": "Compare harness behavior under the same tasks and call budget.",
+   "hours": 8,
+   "languages": [
+    "Go"
+   ],
+   "stages": 4,
+   "lessonIds": [
+    "09-model-evaluation",
+    "03-structured-outputs"
+   ]
+  },
+  {
+   "id": "hedged-request-lab",
+   "title": "Hedged Request Lab",
+   "level": 4,
+   "levelName": null,
+   "tagline": "Measure the extra work required to escape a slow read request.",
+   "hours": 8,
+   "languages": [
+    "Go"
+   ],
+   "stages": 4,
+   "lessonIds": []
+  },
+  {
+   "id": "inbox-triage-desk",
+   "title": "Inbox Triage Desk",
+   "level": 2,
+   "levelName": "Builder",
+   "tagline": "Turn exported email into an evidence-backed review queue and unsent reply drafts.",
+   "hours": 8,
+   "languages": [
+    "Python"
+   ],
+   "stages": 4,
+   "lessonIds": []
+  },
+  {
+   "id": "infrastructure-plan-explainer",
+   "title": "Infrastructure Plan Explainer",
+   "level": 2,
+   "levelName": null,
+   "tagline": "Explain replacements, unknown values and dependencies before an infrastructure change.",
+   "hours": 8,
+   "languages": [
+    "Python"
+   ],
+   "stages": 4,
+   "lessonIds": []
+  },
+  {
+   "id": "json-schema-output-guard",
+   "title": "JSON Schema Output Guard",
+   "level": 1,
+   "levelName": "Starter",
+   "tagline": "A schema preflight and bounded-repair receipt for model output contracts.",
+   "hours": 8,
+   "languages": [
+    "TypeScript"
+   ],
+   "stages": 4,
+   "lessonIds": []
+  },
+  {
+   "id": "kubernetes-event-storyboard",
+   "title": "Kubernetes Event Storyboard",
+   "level": 3,
+   "levelName": null,
+   "tagline": "Turn workload events into a timeline with the exact objects behind each clue.",
+   "hours": 8,
+   "languages": [
+    "Go",
+    "TypeScript"
+   ],
+   "stages": 4,
+   "lessonIds": []
+  },
+  {
+   "id": "llm-gateway-with-fallbacks",
+   "title": "LLM Gateway With Fallbacks",
+   "level": 3,
+   "levelName": "Engineer",
+   "tagline": "Route a bounded request through providers with explicit failure semantics.",
+   "hours": 8,
+   "languages": [
+    "Go"
+   ],
+   "stages": 4,
+   "lessonIds": [
+    "03-structured-outputs"
+   ]
+  },
+  {
+   "id": "local-model-eval-harness",
+   "title": "Local Model Evaluation Harness",
+   "level": 2,
+   "levelName": "Builder",
+   "tagline": "A reproducible local-model recording and comparison artifact with visible coverage and confidence error.",
+   "hours": 8,
+   "languages": [
+    "Python"
+   ],
+   "stages": 4,
+   "lessonIds": []
+  },
+  {
+   "id": "log-volume-reduction-lab",
+   "title": "Log Volume Reduction Lab",
+   "level": 2,
+   "levelName": null,
+   "tagline": "Shrink a noisy log stream while keeping evidence of rare failures.",
+   "hours": 8,
+   "languages": [
+    "Rust",
+    "Python"
+   ],
+   "stages": 4,
+   "lessonIds": []
+  },
+  {
+   "id": "mcp-at-scale",
+   "title": "MCP Tool Discovery Workbench",
+   "level": 4,
+   "levelName": "Systems",
+   "tagline": "A scoped MCP inventory server that discovers schemas inside a measured context budget.",
+   "hours": 10,
+   "languages": [
+    "Python",
+    "TypeScript"
+   ],
+   "stages": 5,
+   "lessonIds": []
+  },
+  {
+   "id": "meeting-notes-to-actions",
+   "title": "Meeting Notes to Actions",
+   "level": 2,
+   "levelName": "Builder",
+   "tagline": "A source-linked commitment inbox whose export requires an explicit review decision.",
+   "hours": 8,
+   "languages": [
+    "Python"
+   ],
+   "stages": 4,
+   "lessonIds": []
+  },
+  {
+   "id": "memory-server",
+   "title": "Persistent Memory Server",
+   "level": 3,
+   "levelName": "Engineer",
+   "tagline": "A persistent memory workbench with revision history and one boundary for REST and MCP.",
+   "hours": 8,
+   "languages": [
+    "TypeScript",
+    "Rust"
+   ],
+   "stages": 4,
+   "lessonIds": []
+  },
+  {
+   "id": "mini-decompiler",
+   "title": "Mini Decompiler",
+   "level": 5,
+   "levelName": "Frontier",
+   "tagline": "A decompiler for a defined x86-64 subset that turns functions in an object you compiled into structured C, then proves the output.",
+   "hours": 18,
+   "languages": [
+    "Python"
+   ],
+   "stages": 8,
+   "lessonIds": []
+  },
+  {
+   "id": "multi-agent-code-review-panel",
+   "title": "Multi-Agent Code Review Panel",
+   "level": 3,
+   "levelName": "Engineer",
+   "tagline": "A review disagreement workbench that measures when quorum helps and when it hides findings.",
+   "hours": 8,
+   "languages": [
+    "TypeScript"
+   ],
+   "stages": 4,
+   "lessonIds": []
+  },
+  {
+   "id": "plain-language-rewrite-desk",
+   "title": "Plain Language Rewrite Desk",
+   "level": 2,
+   "levelName": null,
+   "tagline": "Make an explanation easier to read while checking what changed.",
+   "hours": 8,
+   "languages": [
+    "TypeScript"
+   ],
+   "stages": 4,
+   "lessonIds": []
+  },
+  {
+   "id": "postmortem-writer",
+   "title": "Incident Postmortem Writer",
+   "level": 2,
+   "levelName": "Builder",
+   "tagline": "Turn incident events into a timeline with evidence-backed claims.",
+   "hours": 8,
+   "languages": [
+    "Go"
+   ],
+   "stages": 4,
+   "lessonIds": [
+    "01-dev-environment",
+    "09-data-management"
+   ]
+  },
+  {
+   "id": "pr-review-reporter",
+   "title": "PR Review Reporter",
+   "level": 2,
+   "levelName": "Builder",
+   "tagline": "A local patch-review artifact that preserves Git line evidence and can enter CI as SARIF.",
+   "hours": 8,
+   "languages": [
+    "Python",
+    "TypeScript"
+   ],
+   "stages": 4,
+   "lessonIds": []
+  },
+  {
+   "id": "prompt-regression-tester",
+   "title": "Prompt Regression Tester",
+   "level": 1,
+   "levelName": "Starter",
+   "tagline": "Compare prompt revisions on recorded responses with explicit checks, paired regressions, and a reproducible release gate.",
+   "hours": 8,
+   "languages": [
+    "Python"
+   ],
+   "stages": 4,
+   "lessonIds": [
+    "03-structured-outputs",
+    "09-model-evaluation"
+   ]
+  },
+  {
+   "id": "rag-freshness-pipeline",
+   "title": "RAG Freshness Pipeline",
+   "level": 3,
+   "levelName": "Engineer",
+   "tagline": "Build a content-addressed document index with deletion tracking, version checks, and freshness-aware retrieval.",
+   "hours": 8,
+   "languages": [
+    "Python"
+   ],
+   "stages": 4,
+   "lessonIds": [
+    "09-data-management",
+    "06-rag"
+   ]
+  },
+  {
+   "id": "report-judge",
+   "title": "Report Judge",
+   "level": 3,
+   "levelName": "Engineer",
+   "tagline": "Audit sentence-level citations, test lexical support, and compare report revisions with a paired uncertainty interval.",
+   "hours": 8,
+   "languages": [
+    "Python"
+   ],
+   "stages": 4,
+   "lessonIds": [
+    "06-rag",
+    "09-model-evaluation",
+    "38-verification-gates"
+   ]
+  },
+  {
+   "id": "research-report-agent",
+   "title": "Research Report Agent",
+   "level": 2,
+   "levelName": "Builder",
+   "tagline": "Turn a question and a pile of documents into a report where every sentence can be checked.",
+   "hours": 20,
+   "languages": [
+    "Rust",
+    "Python",
+    "TypeScript"
+   ],
+   "stages": 7,
+   "lessonIds": [
+    "06-rag",
+    "03-structured-outputs",
+    "01-the-agent-loop",
+    "38-verification-gates"
+   ]
+  },
+  {
+   "id": "retrieval-evaluation-lab",
+   "title": "Retrieval Evaluation Lab",
+   "level": 2,
+   "levelName": "Builder",
+   "tagline": "Measure ranking quality with precision, recall, reciprocal rank, and discounted gain while exposing duplicates and missing judgments.",
+   "hours": 8,
+   "languages": [
+    "Python"
+   ],
+   "stages": 4,
+   "lessonIds": [
+    "06-rag",
+    "09-model-evaluation"
+   ]
+  },
+  {
+   "id": "retry-storm-lab",
+   "title": "Retry Storm Lab",
+   "level": 3,
+   "levelName": null,
+   "tagline": "Watch many reasonable retries combine into an overloaded service.",
+   "hours": 8,
+   "languages": [
+    "Go",
+    "TypeScript"
+   ],
+   "stages": 4,
+   "lessonIds": []
+  },
+  {
+   "id": "rust-agent-shell",
+   "title": "Streaming Agent Shell in Rust",
+   "level": 4,
+   "levelName": "Systems",
+   "tagline": "Build a real stdin/stdout Rust action loop with bounded reads, an explicit command grammar, path containment, and streamed JSON events.",
+   "hours": 8,
+   "languages": [
+    "Rust"
+   ],
+   "stages": 4,
+   "lessonIds": [
+    "09-data-management",
+    "05-tool-schema-design"
+   ]
+  },
+  {
+   "id": "sandbox-ladder",
+   "title": "Sandbox Policy Planner",
+   "level": 4,
+   "levelName": "Systems",
+   "tagline": "Choose isolation controls from an explicit capability requirement.",
+   "hours": 8,
+   "languages": [
+    "Rust"
+   ],
+   "stages": 4,
+   "lessonIds": [
+    "07-docker-for-ai",
+    "25-security-secrets-audit"
+   ]
+  },
+  {
+   "id": "self-improving-skill-loop",
+   "title": "Self-Improving Skill Loop",
+   "level": 5,
+   "levelName": "Frontier",
+   "tagline": "Improve an explicit routing skill from labeled development errors, then require a separate evaluation gate before promotion.",
+   "hours": 8,
+   "languages": [
+    "Python"
+   ],
+   "stages": 4,
+   "lessonIds": [
+    "09-model-evaluation",
+    "34-repo-memory-and-state",
+    "38-verification-gates"
+   ]
+  },
+  {
+   "id": "semantic-notes-search",
+   "title": "Semantic Notes Search",
+   "level": 1,
+   "levelName": "Starter",
+   "tagline": "Search your markdown notes with Unicode normalization, explicit aliases and inspectable lexical scores.",
+   "hours": 8,
+   "languages": [
+    "Python"
+   ],
+   "stages": 4,
+   "lessonIds": [
+    "09-data-management",
+    "06-rag"
+   ]
+  },
+  {
+   "id": "sensitive-text-redaction-gate",
+   "title": "Sensitive Text Redaction Gate",
+   "level": 2,
+   "levelName": null,
+   "tagline": "Remove bounded sensitive-text patterns before records enter a model pipeline.",
+   "hours": 8,
+   "languages": [
+    "Python"
+   ],
+   "stages": 4,
+   "lessonIds": []
+  },
+  {
+   "id": "service-ownership-navigator",
+   "title": "Service Ownership Navigator",
+   "level": 2,
+   "levelName": null,
+   "tagline": "Find a service's owner and runbook with evidence for every answer.",
+   "hours": 8,
+   "languages": [
+    "TypeScript"
+   ],
+   "stages": 4,
+   "lessonIds": []
+  },
+  {
+   "id": "signed-webhook-inbox",
+   "title": "Signed Webhook Inbox",
+   "level": 4,
+   "levelName": null,
+   "tagline": "Accept a delivery once and retain the evidence needed to replay it safely.",
+   "hours": 8,
+   "languages": [
+    "Go"
+   ],
+   "stages": 4,
+   "lessonIds": []
+  },
+  {
+   "id": "skill-installer",
+   "title": "Cross-Agent Skill Installer",
+   "level": 3,
+   "levelName": "Engineer",
+   "tagline": "Validate local skill bundles, translate agent metadata, verify content digests, and atomically install without overwriting learner edits.",
+   "hours": 8,
+   "languages": [
+    "TypeScript"
+   ],
+   "stages": 4,
+   "lessonIds": [
+    "09-data-management",
+    "25-security-secrets-audit"
+   ]
+  },
+  {
+   "id": "skill-router",
+   "title": "Skill Router",
+   "level": 2,
+   "levelName": "Builder",
+   "tagline": "Route a request to a skill using explainable keyword scores, path rules, permission gates, and dependency ordering.",
+   "hours": 8,
+   "languages": [
+    "TypeScript"
+   ],
+   "stages": 4,
+   "lessonIds": [
+    "05-tool-schema-design",
+    "38-verification-gates"
+   ]
+  },
+  {
+   "id": "skill-scanner",
+   "title": "Skill Supply-Chain Scanner",
+   "level": 3,
+   "levelName": "Engineer",
+   "tagline": "Find risky instruction patterns with exact source evidence.",
+   "hours": 8,
+   "languages": [
+    "Rust"
+   ],
+   "stages": 4,
+   "lessonIds": [
+    "09-data-management",
+    "25-security-secrets-audit"
+   ]
+  },
+  {
+   "id": "skill-validator",
+   "title": "SKILL.md Validator and Loader",
+   "level": 1,
+   "levelName": "Starter",
+   "tagline": "Validate skill metadata and load only the context the task needs.",
+   "hours": 8,
+   "languages": [
+    "Rust"
+   ],
+   "stages": 4,
+   "lessonIds": [
+    "09-data-management",
+    "03-structured-outputs"
+   ]
+  },
+  {
+   "id": "source-grounded-study-coach",
+   "title": "Source-Grounded Study Coach",
+   "level": 2,
+   "levelName": "Builder",
+   "tagline": "Build practice questions with source evidence and a visible review schedule.",
+   "hours": 8,
+   "languages": [
+    "TypeScript"
+   ],
+   "stages": 4,
+   "lessonIds": []
+  },
+  {
+   "id": "streaming-answer-recovery",
+   "title": "Streaming Answer Recovery",
+   "level": 3,
+   "levelName": null,
+   "tagline": "Reconnect a streamed answer without duplicating text or hiding an incomplete result.",
+   "hours": 8,
+   "languages": [
+    "TypeScript",
+    "Go"
+   ],
+   "stages": 4,
+   "lessonIds": []
+  },
+  {
+   "id": "subtitle-localization-desk",
+   "title": "Subtitle Localization Desk",
+   "level": 2,
+   "levelName": null,
+   "tagline": "Translate captions while keeping the timing and terminology visible.",
+   "hours": 8,
+   "languages": [
+    "Python"
+   ],
+   "stages": 4,
+   "lessonIds": []
+  },
+  {
+   "id": "support-agent-with-google-adk",
+   "title": "Support Agent With Google ADK",
+   "level": 3,
+   "levelName": "Engineer",
+   "tagline": "Build a redacted, authorized support review with retained replies and evidence, then run the same policy through real Google ADK agents.",
+   "hours": 8,
+   "languages": [
+    "Python"
+   ],
+   "stages": 4,
+   "lessonIds": []
+  },
+  {
+   "id": "tiny-coding-agent",
+   "title": "Tiny Coding Agent",
+   "level": 1,
+   "levelName": "Starter",
+   "tagline": "Build a bounded coding loop that applies exact patches to a disposable workspace and runs its real tests through an allowlisted tool contract.",
+   "hours": 8,
+   "languages": [
+    "Python"
+   ],
+   "stages": 4,
+   "lessonIds": [
+    "01-the-agent-loop",
+    "09-data-management"
+   ]
+  },
+  {
+   "id": "token-counter-and-cost-meter",
+   "title": "Token Counter and Cost Meter",
+   "level": 1,
+   "levelName": "Starter",
+   "tagline": "Account for usage and budgets with integer arithmetic.",
+   "hours": 8,
+   "languages": [
+    "Rust"
+   ],
+   "stages": 4,
+   "lessonIds": [
+    "01-tokenizers",
+    "38-verification-gates"
+   ]
+  },
+  {
+   "id": "tool-call-firewall",
+   "title": "Tool Call Firewall",
+   "level": 4,
+   "levelName": "Systems",
+   "tagline": "Authorize structured tool requests before they cross a side-effect boundary.",
+   "hours": 8,
+   "languages": [
+    "Rust"
+   ],
+   "stages": 4,
+   "lessonIds": [
+    "05-tool-schema-design",
+    "25-security-secrets-audit"
+   ]
+  },
+  {
+   "id": "tool-contract-migration-checker",
+   "title": "Tool Contract Migration Checker",
+   "level": 3,
+   "levelName": "Engineer",
+   "tagline": "Find the saved tool calls that a proposed schema change would break.",
+   "hours": 8,
+   "languages": [
+    "Python"
+   ],
+   "stages": 4,
+   "lessonIds": []
+  },
+  {
+   "id": "typed-workflow-agent-with-mastra",
+   "title": "Typed Workflow Agent with Mastra",
+   "level": 3,
+   "levelName": "Engineer",
+   "tagline": "Build a typed approval workflow, then preserve and resume real Mastra suspension through a local SQLite store.",
+   "hours": 8,
+   "languages": [
+    "TypeScript"
+   ],
+   "stages": 4,
+   "lessonIds": []
+  },
+  {
+   "id": "ui-string-localization-workbench",
+   "title": "UI String Localization Workbench",
+   "level": 2,
+   "levelName": null,
+   "tagline": "Review translated interface text without breaking its placeholders.",
+   "hours": 8,
+   "languages": [
+    "TypeScript"
+   ],
+   "stages": 4,
+   "lessonIds": []
+  },
+  {
+   "id": "visual-evidence-library",
+   "title": "Visual Evidence Library",
+   "level": 3,
+   "levelName": "Engineer",
+   "tagline": "Find text inside screenshots and diagrams with inspectable coordinate evidence.",
+   "hours": 8,
+   "languages": [
+    "Python"
+   ],
+   "stages": 4,
+   "lessonIds": []
+  },
+  {
+   "id": "vocabulary-autocomplete-pad",
+   "title": "Vocabulary Autocomplete Pad",
+   "level": 1,
+   "levelName": null,
+   "tagline": "Build suggestions that explain which words they learned from.",
+   "hours": 8,
+   "languages": [
+    "TypeScript"
+   ],
+   "stages": 4,
+   "lessonIds": []
+  },
+  {
+   "id": "voice-note-transcriber-pipeline",
+   "title": "Voice Note Transcriber Pipeline",
+   "level": 3,
+   "levelName": "Engineer",
+   "tagline": "Turn a selected WAV into an inspectable transcript and caption review page using a real optional HTTP recognizer, with an honest offline speech fixture.",
+   "hours": 8,
+   "languages": [
+    "Python"
+   ],
+   "stages": 4,
+   "lessonIds": []
+  },
+  {
+   "id": "web-change-brief",
+   "title": "Web Change Brief",
+   "level": 3,
+   "levelName": "Engineer",
+   "tagline": "Turn noisy HTML snapshots into a small report of exact readable text changes.",
+   "hours": 8,
+   "languages": [
+    "Go"
+   ],
+   "stages": 4,
+   "lessonIds": []
+  },
+  {
+   "id": "workflow-hooks",
+   "title": "Self-Correcting Workflow Hooks",
+   "level": 3,
+   "levelName": "Engineer",
+   "tagline": "Turn repeated, sourced corrections into scoped rules, persist them atomically, and enforce only explicitly approved rules.",
+   "hours": 8,
+   "languages": [
+    "TypeScript"
+   ],
+   "stages": 4,
+   "lessonIds": [
+    "34-repo-memory-and-state",
+    "38-verification-gates"
+   ]
+  },
+  {
+   "id": "workshop-materials-planner",
+   "title": "Workshop Materials Planner",
+   "level": 2,
+   "levelName": null,
+   "tagline": "Scale a workshop plan and show exactly which supplies are missing.",
+   "hours": 8,
+   "languages": [
+    "Python"
+   ],
+   "stages": 4,
+   "lessonIds": []
   }
  ]
 }

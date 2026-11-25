@@ -1,4 +1,4 @@
-import type { LessonProgress, ProgressState } from "@/lib/progress";
+import type { LessonProgress, ProgressState, ProjectProgress } from "@/lib/progress";
 
 function emptyLesson(): LessonProgress {
   return {
@@ -31,6 +31,7 @@ export function mergeProgressStates(local: ProgressState, remote: ProgressState)
     streakDays: Math.max(local.streakDays ?? 0, remote.streakDays ?? 0),
     badges: [...new Set([...(local.badges ?? []), ...(remote.badges ?? [])])],
     questsCompleted: [...new Set([...(local.questsCompleted ?? []), ...(remote.questsCompleted ?? [])])],
+    projects: mergeProjects(local.projects, remote.projects),
     lessons: { ...local.lessons },
     updatedAt: Math.max(local.updatedAt ?? 0, remote.updatedAt ?? 0),
     lastActiveDate: local.lastActiveDate ?? remote.lastActiveDate ?? null,
@@ -58,6 +59,7 @@ export function mergeProgressStates(local: ProgressState, remote: ProgressState)
         ? localLesson.workspaceFiles
         : remoteLesson.workspaceFiles ?? localLesson.workspaceFiles,
       quiz: mergeQuiz(localLesson.quiz, remoteLesson.quiz),
+      practice: mergePractice(localLesson.practice, remoteLesson.practice),
     };
   }
 
@@ -83,4 +85,31 @@ function mergeQuiz(a: QuizRecord, b: QuizRecord): QuizRecord {
   const best = (x?: { correct: number }, y?: { correct: number }) =>
     !x ? y : !y ? x : y.correct > x.correct ? y : x;
   return { pre: best(a.pre, b.pre) as typeof a.pre, post: best(a.post, b.post) as typeof a.post };
+}
+
+function mergePractice(a?: Record<string, number>, b?: Record<string, number>) {
+  if (!a) return b;
+  if (!b) return a;
+  const out = { ...a };
+  for (const [k, v] of Object.entries(b)) out[k] = out[k] ? Math.min(out[k], v) : v;
+  return out;
+}
+
+function mergeProjects(a?: Record<string, ProjectProgress>, b?: Record<string, ProjectProgress>) {
+  if (!a) return b;
+  if (!b) return a;
+  const out: Record<string, ProjectProgress> = { ...a };
+  for (const [k, v] of Object.entries(b)) {
+    const x = out[k];
+    if (!x) {
+      out[k] = v;
+      continue;
+    }
+    out[k] = {
+      stages: [...new Set([...x.stages, ...v.stages])].sort((m, n) => m - n),
+      completedAt: x.completedAt && v.completedAt ? Math.min(x.completedAt, v.completedAt) : (x.completedAt ?? v.completedAt),
+      verifiedReport: Boolean(x.verifiedReport || v.verifiedReport),
+    };
+  }
+  return out;
 }

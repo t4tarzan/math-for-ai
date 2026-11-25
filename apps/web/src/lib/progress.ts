@@ -21,6 +21,8 @@ export interface LessonProgress {
   xpEarned: number;
   /** best quiz score per stage, from the source curriculum's quiz.json */
   quiz?: { pre?: QuizScore; post?: QuizScore };
+  /** practice problems passed for this lesson: problem id -> first pass time */
+  practice?: Record<string, number>;
 }
 
 export interface QuizScore {
@@ -36,7 +38,16 @@ export interface ProgressState {
   lastActiveDate: string | null;
   badges: string[];
   questsCompleted?: string[];
+  /** staged projects (source projects/): stages ticked off, completion, imported runner report */
+  projects?: Record<string, ProjectProgress>;
   updatedAt: number;
+}
+
+export interface ProjectProgress {
+  stages: number[];
+  completedAt: number | null;
+  /** completed from the project runner's completion.json (vs. ticked by hand) */
+  verifiedReport?: boolean;
 }
 
 function emptyLesson(): LessonProgress {
@@ -287,4 +298,73 @@ export function recordQuiz(
 
 export function getQuizScores(lessonId: string) {
   return readProgress().lessons[lessonId]?.quiz;
+}
+
+/** XP for passing every check of a practice problem, once per problem. */
+export const XP_PRACTICE_PASS = 20;
+
+export function recordPracticePass(lessonId: string, practiceId: string): { xpAwarded: number; first: boolean } {
+  const state = readProgress();
+  const lesson = touchLesson(state, lessonId);
+  const done = { ...(lesson.practice ?? {}) };
+  if (done[practiceId]) return { xpAwarded: 0, first: false };
+  done[practiceId] = Date.now();
+  lesson.practice = done;
+  lesson.visitedAt = Date.now();
+  state.xp += XP_PRACTICE_PASS;
+  lesson.xpEarned += XP_PRACTICE_PASS;
+  writeProgress(updateStreak(state));
+  return { xpAwarded: XP_PRACTICE_PASS, first: true };
+}
+
+export function getPracticePasses(): Record<string, number> {
+  const out: Record<string, number> = {};
+  for (const l of Object.values(readProgress().lessons)) Object.assign(out, l.practice ?? {});
+  return out;
+}
+
+/** XP for each project stage ticked off, and a bonus when the whole project is done. */
+export const XP_PROJECT_STAGE = 10;
+export const XP_PROJECT_DONE = 50;
+
+export function getProjectProgress(projectId: string): ProjectProgress {
+  return readProgress().projects?.[projectId] ?? { stages: [], completedAt: null };
+}
+
+/** Tick or untick a stage. XP only for the first tick of a stage and the first completion. */
+export function setProjectStage(projectId: string, stage: number, done: boolean, totalStages: number) {
+  const state = readProgress();
+  const projects = { ...(state.projects ?? {}) };
+  const cur = projects[projectId] ?? { stages: [], completedAt: null };
+  const had = cur.stages.includes(stage);
+  const stages = done ? [...new Set([...cur.stages, stage])].sort((a, b) => a - b) : cur.stages.filter((s) => s !== stage);
+  let xp = 0;
+  if (done && !had) xp += XP_PROJECT_STAGE;
+  let completedAt = cur.completedAt;
+  if (!completedAt && stages.length >= totalStages) {
+    completedAt = Date.now();
+    xp += XP_PROJECT_DONE;
+  }
+  projects[projectId] = { ...cur, stages, completedAt };
+  state.projects = projects;
+  state.xp += xp;
+  writeProgress(updateStreak(state));
+  return { xp, progress: projects[projectId] };
+}
+
+/** Mark every stage done from a runner report (completion.json) that the page has already checked. */
+export function importProjectReport(projectId: string, totalStages: number) {
+  const state = readProgress();
+  const projects = { ...(state.projects ?? {}) };
+  const cur = projects[projectId] ?? { stages: [], completedAt: null };
+  const all = Array.from({ length: totalStages }, (_, i) => i + 1);
+  const newStages = all.filter((n) => !cur.stages.includes(n)).length;
+  let xp = newStages * XP_PROJECT_STAGE;
+  const completedAt = cur.completedAt ?? Date.now();
+  if (!cur.completedAt) xp += XP_PROJECT_DONE;
+  projects[projectId] = { stages: all, completedAt, verifiedReport: true };
+  state.projects = projects;
+  state.xp += xp;
+  writeProgress(updateStreak(state));
+  return { xp };
 }

@@ -300,3 +300,6 @@ section[id],
 .lesson-mermaid { border: 1px solid var(--rule); border-radius: 0.85rem; background: #fff; padding: 1rem; overflow-x: auto; }
 .lesson-mermaid pre.mermaid-src { font-family: var(--font-mono); font-size: 0.75rem; color: var(--ink-mute); white-space: pre-wrap; }
 .lesson-mermaid svg { max-width: 100%; height: auto; margin-inline: auto; display: block; }
+/* tables keep words whole (prose allows breaking anywhere, which split "logits" into "logi ts") */
+.lesson-table th, .lesson-table td { overflow-wrap: normal; word-break: normal; }
+.lesson-table code { white-space: nowrap; }

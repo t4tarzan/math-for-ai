@@ -8,7 +8,9 @@ import { MermaidDiagrams } from "@/components/learn/MermaidDiagrams";
 import { Quiz } from "@/components/learn/Quiz";
 import { CodeFiles } from "@/components/learn/CodeFiles";
 import { MarkVisited } from "@/components/learn/MarkVisited";
-import { SOURCE, loadSourceLesson, neighbours, phaseLessonIds, phaseOf } from "@/lib/source-lessons";
+import { SOURCE, loadSourceLesson, neighbours, phaseLessonIds, phaseOf, practiceForLesson, projectsForLesson, LEVEL_NAMES } from "@/lib/source-lessons";
+import { PracticeBadges } from "@/components/practice/PracticeBadges";
+import { SolvedMark } from "@/components/practice/SolvedMark";
 import { renderLessonMarkdown } from "@/lib/source-render";
 
 interface PageProps {
@@ -40,6 +42,8 @@ export default async function LearnPage({ params }: PageProps) {
   const position = ids.indexOf(lesson.id) + 1;
   const hasPlayer = Boolean((catalog.lessons as { id: string; hasPlayer?: boolean }[]).find((l) => l.id === lesson.id)?.hasPlayer);
   const githubDir = lesson.githubUrl.replace(/\/docs\/en\.md$/, "/code");
+  const practice = practiceForLesson(lesson.id);
+  const projects = projectsForLesson(lesson.id);
   const pre = lesson.quiz?.pre ?? [];
   const post = lesson.quiz?.post ?? [];
   const metaChips = [
@@ -53,6 +57,8 @@ export default async function LearnPage({ params }: PageProps) {
     ...(pre.length ? [{ id: "warm-up", text: "Warm-up", depth: 2 as const }] : []),
     ...toc,
     ...(lesson.code.length ? [{ id: "code", text: "The code", depth: 2 as const }] : []),
+    ...(practice.length ? [{ id: "practice", text: "Practice", depth: 2 as const }] : []),
+    ...(projects.length ? [{ id: "projects", text: "Projects", depth: 2 as const }] : []),
     ...(post.length ? [{ id: "check", text: "Check yourself", depth: 2 as const }] : []),
   ];
 
@@ -145,6 +151,46 @@ export default async function LearnPage({ params }: PageProps) {
                 <Code2 className="h-5 w-5 text-[var(--blueprint)]" /> The code
               </h2>
               <CodeFiles files={lesson.code} githubDir={githubDir} />
+            </section>
+          )}
+
+          {practice.length > 0 && (
+            <section id="practice" className="anchor-target mt-6">
+              <h2 className="mb-1 font-display text-2xl font-bold">Practice</h2>
+              <p className="mb-3 text-sm text-[var(--ink-soft)]">Write it yourself. Real checks run in your browser and tell you exactly what is wrong.</p>
+              <div className="grid gap-3 sm:grid-cols-2">
+                {practice.map((p) => (
+                  <Link key={p.id} href={`/practice/${p.id}`} className="card card-lift p-4">
+                    <div className="flex items-start justify-between gap-2">
+                      <PracticeBadges kind={p.kind} difficulty={p.difficulty} minutes={p.minutes} />
+                      <SolvedMark id={p.id} />
+                    </div>
+                    <p className="mt-2 font-semibold">{p.title}</p>
+                    <p className="mt-1 text-sm text-[var(--ink-soft)]">{p.summary}</p>
+                    <p className="mt-3 inline-flex items-center gap-1 text-sm font-semibold text-[var(--blueprint)]">
+                      Solve it <ArrowRight className="h-4 w-4" />
+                    </p>
+                  </Link>
+                ))}
+              </div>
+            </section>
+          )}
+
+          {projects.length > 0 && (
+            <section id="projects" className="anchor-target mt-6">
+              <h2 className="mb-1 font-display text-2xl font-bold">Projects that build on this</h2>
+              <p className="mb-3 text-sm text-[var(--ink-soft)]">Real tools you build on your own machine, stage by stage, with tests.</p>
+              <div className="grid gap-3 sm:grid-cols-2">
+                {projects.slice(0, 4).map((p) => (
+                  <Link key={p.id} href={`/projects/${p.id}`} className="card card-lift p-4">
+                    <p className="text-[11px] text-[var(--ink-mute)]">
+                      Level {p.level} · {p.levelName ?? LEVEL_NAMES[p.level]} · {p.languages.join(", ")} · {p.stages} stages
+                    </p>
+                    <p className="mt-1 font-semibold">{p.title}</p>
+                    <p className="mt-1 text-sm text-[var(--ink-soft)]">{p.tagline}</p>
+                  </Link>
+                ))}
+              </div>
             </section>
           )}
 

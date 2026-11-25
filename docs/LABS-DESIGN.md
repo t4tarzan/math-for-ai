@@ -86,8 +86,8 @@ credited) and maps its rubric to checks against the learner's running Floci.
 |---|---|---|
 | 1 Ingest | S3 bucket + upload the document set | bucket exists; all N documents present with `doc_id` metadata (N/N) |
 | 2 Index | Lambda on S3 event: chunk + embed → S3 Vectors index | index exists; every document has ≥ 1 vector (learners choose their chunking); the 5 `retrieval_queries` in golden.json return a chunk of the expected document in the top 3 (5/5) |
-| 3 Answer | API Gateway HTTP API → Lambda: retrieve + Bedrock Converse | 10 public golden questions: correct `doc_id` in `citations` (≥ 8/10); 3 out-of-scope questions return `refused: true` (3/3) |
-| 4 Users | Cognito user pool + JWT authorizer; chat history in DynamoDB | no token → 401; the grader creates its own test user (AdminCreateUser), asks 2 questions → 2 history rows with that user's `sub`, then deletes the user |
+| 3 Answer | API Gateway **REST API (v1)** → Lambda: retrieve + Bedrock Converse (v1 because Floci's HTTP API JWT authorizer fails; SPIKE.md) | 10 public golden questions: correct `doc_id` in `citations` (≥ 8/10); 3 out-of-scope questions return `refused: true` (3/3) |
+| 4 Users | Cognito user pool + `COGNITO_USER_POOLS` authorizer on the REST API; chat history in DynamoDB | no token → 401; the grader creates its own test user (AdminCreateUser), asks 2 questions → 2 history rows with that user's `sub`, then deletes the user |
 | 5 Safety + logs | guardrail before the model (PII + out-of-scope) + CloudWatch logs | 5 listed PII prompts → `refused: true` (5/5); every request the grader made has a JSON log line `{"request_id", "latency_ms", "refused"}` in the log group named in `lab.outputs.json` |
 | 6 Ship-ready | Terraform for the whole stack | after `terraform apply` against Floci, `terraform plan` shows no changes; `terraform validate` passes with the provider's endpoint override removed (the real-AWS step itself is the learner's own account, not graded) |
 
@@ -144,9 +144,9 @@ repo". XP: **+10 per stage passed (once), +50 for the capstone**, labelled "self
 ### 9.4 Model proxy (`/api/lab/model`)
 - Routes: `POST /api/lab/model/v1/chat/completions` (Floci's proxy path, **L1** confirms the exact path and whether
   ConverseStream needs SSE; streaming is supported if Floci asks for it), and `POST /api/lab/model/v1/embeddings` if L1.3
-  chooses the proxy path.
+  chooses the proxy path (**it did**: SPIKE.md; model bge-m3 or text-embedding-3-small, picked on the real document set in L2.2).
 - Auth: `Authorization: Bearer <lab token>`. Unknown/revoked → `401 {"error":"invalid_token"}`.
-- Model mapping: any Bedrock model id → one default OpenRouter model (D3); the response carries the Bedrock id back.
+- Model mapping: any Bedrock model id → one default OpenRouter model (D3), **non-reasoning** (a reasoning model spent the whole max_tokens on hidden reasoning in the spike); the response carries the Bedrock id back.
 - Cost source: OpenRouter's usage accounting in the response (`usage.cost`, USD; **L1** confirms the field), never estimates.
 - Errors: daily cap → `402 {"error":"daily_cap","resets_at"}`; monthly ceiling → `402 {"error":"monthly_ceiling"}`;
   rate limit (**30 requests/min per token**) → `429 {"error":"rate_limited","retry_after_s"}`. The guides show these bodies.

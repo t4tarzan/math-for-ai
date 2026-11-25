@@ -3,7 +3,7 @@
 > Regenerate with `bin/labplan.py mirror`. Do not hand-edit. INTERNAL.
 > Design: docs/LABS-DESIGN.md · plan of record: docs/LABS-ARC.md · architecture: docs/LABS-ARCHITECTURE.md · cockpit: http://127.0.0.1:6847
 
-**Progress: 4/23 leaves done.**
+**Progress: 6/23 leaves done.**
 
 
 ## L0 — Decisions and the design gate
@@ -12,17 +12,17 @@
 |---|---|---|---|
 | ☑ | L0.1 | Design v1, plan, task list and architecture written | docs/LABS-DESIGN.md, docs/LABS-ARC.md, docs/LABS-ARCHITECTURE.md and bin/labplan.py exist; `bin/labplan.py tree` prints every phase. |
 | ☑ | L0.2 | Goldfish gate on v1 (design_critic, zoom_out, implementation_readiness) | docs/egm/labs-plan-goldfish-2026-11-26.md exists with every finding listed and the decision it led to. |
-| ☑ | L0.3 | Operator decisions D1 (Codespaces first) and D2 (honour-system grading) recorded; design v2 written | LABS-DESIGN.md §8 shows D1 and D2 with the operator's answers and the date; v2 header says it replaces v1. |
+| ☑ | L0.3 | Operator decisions D1 (Codespaces first) and D2 (honour-system grading) recorded; design v2 written _(D1 Codespaces first, D2 honour-system grading (operator 2026-11-26). Open: D3 model+budget, D4 lab repo, D5 token access, D7 document set.)_ | LABS-DESIGN.md §8 shows D1 and D2 with the operator's answers and the date; v2 header says it replaces v1. |
 | ☑ | L0.4 | One goldfish on v2 (implementation_readiness) before seeding | docs/egm/labs-v2-goldfish-<date>.md exists; its findings are fixed or answered; `bin/labplan.py tree` matches docs/labs/TASKS-DRAFT.md. |
 
 ## L1 — Prove Floci can carry the capstone (spike + go/no-go)
 
 | | ID | Task | Acceptance |
 |---|---|---|---|
-| ☐ | L1.1 | Floci (pinned digest) runs every service the capstone needs, scripted | labs/spike/run.sh starts Floci in Docker and runs aws CLI checks for S3, S3 Vectors (create index, put, query), Lambda Python 3.12 (create, invoke, S3 trigger), API Gateway v2 (route → Lambda), Cognito (user pool, token, JWT authorizer rejects no token), DynamoDB, CloudWatch Logs; each prints PASS or FAIL with the error; results in docs/labs/SPIKE.md. |
-| ☐ | L1.2 | Bedrock proxy backend sends the configured bearer token, and Converse round-trips | with PROXY_URL pointed at a local echo server, a Converse call from the aws CLI arrives with `Authorization: Bearer <token>` (header logged); pointed at an OpenAI-compatible endpoint it returns a real answer. |
-| ☐ | L1.3 | Embeddings path measured (Q1): proxy /embeddings route vs a CPU model in the Lambda | SPIKE.md compares both on the document set: recall@3 on 5 known queries, latency, Lambda package size; the choice is written into LABS-DESIGN.md §4. |
-| ☐ | L1.4 | Go/no-go: per-stage verdict with a fallback for every FAIL, operator acknowledged | SPIKE.md has a table stage → services → PASS/FAIL → fallback (drop/replace/workaround); the operator's go is recorded before L2 starts. |
+| ☑ | L1.1 | Floci (pinned digest) runs every service the capstone needs, scripted _(13/13 required; known gap: HTTP API JWT authorizer (Cognito) 401s valid tokens in Floci 2.5.0 -> capstone uses REST v1 + COGNITO_USER_POOLS (PASS). SPIKE.md.)_ | labs/spike/run.sh starts Floci in Docker and runs aws CLI checks for S3, S3 Vectors (create index, put, query), Lambda Python 3.12 (create, invoke, S3 trigger), API Gateway v2 (route → Lambda), Cognito (user pool, token, JWT authorizer rejects no token), DynamoDB, CloudWatch Logs; each prints PASS or FAIL with the error; results in docs/labs/SPIKE.md. |
+| ☑ | L1.2 | Bedrock proxy backend sends the configured bearer token, and Converse round-trips _(Bearer lab token arrives at /v1/chat/completions; Converse + ConverseStream real answers; usage.cost USD on non-stream; needs a non-reasoning model.)_ | with PROXY_URL pointed at a local echo server, a Converse call from the aws CLI arrives with `Authorization: Bearer <token>` (header logged); pointed at an OpenAI-compatible endpoint it returns a real answer. |
+| ◐ | L1.3 | Embeddings path measured (Q1): proxy /embeddings route vs a CPU model in the Lambda _(Proxy route chosen (OpenRouter /embeddings works, ~/bin/zsh.02/M tokens). Model pick + recall@3 wait for the document set (D7), run in L2.2.)_ | SPIKE.md compares both on the document set: recall@3 on 5 known queries, latency, Lambda package size; the choice is written into LABS-DESIGN.md §4. |
+| ◐ | L1.4 | Go/no-go: per-stage verdict with a fallback for every FAIL, operator acknowledged | SPIKE.md has a table stage → services → PASS/FAIL → fallback (drop/replace/workaround); the operator's go is recorded before L2 starts. |
 
 ## L2 — Capstone 08, Floci edition: content, grader, reference
 

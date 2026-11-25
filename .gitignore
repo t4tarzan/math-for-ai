@@ -16,3 +16,5 @@ apps/web/public/pyodide/
 .vscode/
 runtime/
 __pycache__/
+labs/spike/results.json
+labs/spike/proxy-log.jsonl

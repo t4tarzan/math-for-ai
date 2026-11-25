@@ -1,0 +1,86 @@
+[
+ {
+  "check": "S3: bucket + object with metadata",
+  "result": "PASS",
+  "detail": "metadata={'doc_id': 'doc-a'}",
+  "seconds": 0.01
+ },
+ {
+  "check": "S3 Vectors: bucket, index, put, query",
+  "result": "PASS",
+  "detail": "top=doc-a#0 meta={'doc_id': 'doc-a'}",
+  "seconds": 0.01
+ },
+ {
+  "check": "Lambda: create Python 3.12 function",
+  "result": "PASS",
+  "detail": "active",
+  "seconds": 0.01
+ },
+ {
+  "check": "Lambda: invoke (cold), reaches S3 through injected endpoint",
+  "result": "PASS",
+  "detail": "cold 207 ms, body={'answer': 'spike', 'citations': ['docs/a.md'], 'refused': False, 'sub': None}",
+  "seconds": 0.21
+ },
+ {
+  "check": "Lambda: invoke (warm)",
+  "result": "PASS",
+  "detail": "warm 3 ms",
+  "seconds": 0.0
+ },
+ {
+  "check": "Lambda: S3 event trigger writes a marker",
+  "result": "PASS",
+  "detail": "marker written by the triggered Lambda",
+  "seconds": 1.08
+ },
+ {
+  "check": "CloudWatch Logs: Lambda JSON log line present",
+  "result": "PASS",
+  "detail": "{\"request_id\": \"565a30d3-4168-41e8-a13a-da57926ea5b2\", \"latency_ms\": 0.9, \"refused\": false}",
+  "seconds": 0.01
+ },
+ {
+  "check": "DynamoDB: table, put, query by user",
+  "result": "PASS",
+  "detail": "2 rows for u1",
+  "seconds": 0.01
+ },
+ {
+  "check": "Cognito: pool, client, admin user, password auth \u2192 IdToken",
+  "result": "PASS",
+  "detail": "pool=us-east-1_cb5ca6166 token_len=941",
+  "seconds": 0.15
+ },
+ {
+  "check": "API Gateway v2: HTTP API POST /ask \u2192 Lambda (no auth)",
+  "result": "PASS",
+  "detail": "200 {\"answer\": \"spike\", \"citations\": [\"docs/a.md\"], \"refused\": false, \"sub\": null}",
+  "seconds": 0.02
+ },
+ {
+  "check": "API Gateway v2: JWT authorizer (Cognito) [known gap]",
+  "result": "GAP",
+  "detail": "AssertionError: ('http://localhost:4566/us-east-1_cb5ca6166', '992b19cb57c14cd7a56588e927', 401, 401, '{\"message\":\"Unauthorized\"}', 401, '{\"message\":\"Unauthorized\"}')",
+  "seconds": 0.01
+ },
+ {
+  "check": "API Gateway v1 REST + Cognito authorizer \u2192 401 / 200 + sub",
+  "result": "PASS",
+  "detail": "no token 401; token 200",
+  "seconds": 0.02
+ },
+ {
+  "check": "Bedrock Converse \u2192 proxy (bearer token) \u2192 real model",
+  "result": "PASS",
+  "detail": "'Retrieval-Augmented Generation (RAG) is a technique that combines retrieval-based and gene' usage={'inputTokens': 177, 'outputTokens': 40, 'totalTokens': 217}",
+  "seconds": 1.44
+ },
+ {
+  "check": "Bedrock ConverseStream \u2192 proxy",
+  "result": "PASS",
+  "detail": "2 deltas: 'Ok.'",
+  "seconds": 1.4
+ }
+]

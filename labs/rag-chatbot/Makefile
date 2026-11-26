@@ -13,6 +13,9 @@ help:            ## list the commands
 login:           ## save your lab token to .lab/env
 	@python3 scripts/login.py
 
+floci-restart:   ## restart Floci (after make login)
+	@bash scripts/start-floci.sh
+
 vectors:         ## stage 2: create the S3 Vectors bucket and index (safe to re-run)
 	@scripts/vectors.sh
 

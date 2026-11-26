@@ -1,0 +1,31 @@
+{
+  "name": "Math for AI — RAG chatbot lab (Floci)",
+  "image": "mcr.microsoft.com/devcontainers/python:3.12-bookworm",
+  "features": {
+    "ghcr.io/devcontainers/features/docker-in-docker:2": {},
+    "ghcr.io/devcontainers/features/aws-cli:1": {},
+    "ghcr.io/devcontainers/features/terraform:1": {},
+    "ghcr.io/devcontainers/features/node:1": { "version": "22" }
+  },
+  "hostRequirements": { "cpus": 2, "memory": "8gb" },
+  "containerEnv": {
+    "AWS_ENDPOINT_URL": "http://localhost:4566",
+    "AWS_ACCESS_KEY_ID": "test",
+    "AWS_SECRET_ACCESS_KEY": "test",
+    "AWS_DEFAULT_REGION": "us-east-1"
+  },
+  "secrets": {
+    "M4AI_LAB_TOKEN": { "description": "Your personal lab token from the capstone page on math.wntap.org (starts with m4ai_lab_)." }
+  },
+  "postCreateCommand": "pip install --quiet --user boto3 -e grader",
+  "postStartCommand": "bash scripts/start-floci.sh",
+  "forwardPorts": [4566],
+  "portsAttributes": { "4566": { "label": "Floci (AWS emulator)", "onAutoForward": "silent" } },
+  "customizations": {
+    "vscode": {
+      "extensions": ["hashicorp.terraform", "ms-python.python"],
+      "settings": { "terminal.integrated.defaultProfile.linux": "bash" }
+    },
+    "codespaces": { "openFiles": ["README.md", "guides/01-ingest.md"] }
+  }
+}

@@ -3,7 +3,7 @@
 > Regenerate with `bin/labplan.py mirror`. Do not hand-edit. INTERNAL.
 > Design: docs/LABS-DESIGN.md · plan of record: docs/LABS-ARC.md · architecture: docs/LABS-ARCHITECTURE.md · cockpit: http://127.0.0.1:6847
 
-**Progress: 9/23 leaves done.**
+**Progress: 10/23 leaves done.**
 
 
 ## L0 — Decisions and the design gate
@@ -31,13 +31,13 @@
 | ☑ | L2.1 | capstone.json + six stage guides (Floci edition of capstone 08, source credited) _(labs/rag-chatbot: capstone.json (v0.1.0), README, 6 guides with grader checks + thresholds; source capstone 08 (MIT) and GOV.UK OGL credited.)_ | labs/rag-chatbot/ has capstone.json (stages, version), README and 6 guides; each guide ends with what the grader checks and its threshold (LABS-DESIGN §5); the source capstone 08 and MIT licence are credited. |
 | ☑ | L2.2 | Starter + licensed document set + public golden set (10 questions, 3 out-of-scope, 5 PII prompts) _(D7: GOV.UK consumer + data-rights guidance, 12 pages via the official Content API, OGL v3 (FTC first choice blocked automated access; not bypassed). golden.json per §9.2; starter writes lab.outputs.json; grep of reference names in starter empty.)_ | D7 (document set) decided; its licence is named and allows reuse; golden.json follows LABS-DESIGN §9.2 (documents, 5 retrieval_queries, 10 questions, 3 out_of_scope, 5 pii); the starter writes lab.outputs.json (§9.1) and contains no stage solution (a grep for the reference handler names is empty). |
 | ☑ | L2.3 | Grader CLI `m4ai-lab check rag-chatbot` with one check group per stage, against any Floci endpoint _(grader 0.1.0: 6 stage groups; report schema 1 with capstone_hash; empty lab fails stage 1 with a clear reason.)_ | prints per-stage PASS/FAIL with a reason; --report writes JSON with capstone version (hash of capstone.json), per-stage results and the grader version; a run against an empty Floci fails stage 1 with a clear reason. |
-| ◐ | L2.4 | Reference solution (private repo) passes every stage; 5 broken variants fail the right stage | on a fresh Floci the reference passes 6/6; variants (no index, wrong citations, no refusal, no auth, no logs) each fail exactly the stage named; results logged in docs/labs/GRADER-PROOF.md. |
+| ◐ | L2.4 | Reference solution (private repo) passes every stage; 5 broken variants fail the right stage _(Reference 6/6 (private, labs/.private). 5 variants each fail their stage; no_index cascades to 3 (inherent); no_logs once also failed stage 6, not reproduced alone. GRADER-PROOF.md. Found 2 more Floci gaps: S3 Vectors lookup by ARN fails (Terraform refresh) -> make vectors.)_ | on a fresh Floci the reference passes 6/6; variants (no index, wrong citations, no refusal, no auth, no logs) each fail exactly the stage named; results logged in docs/labs/GRADER-PROOF.md. |
 
 ## L3 — The devcontainer: Codespaces and the learner laptop
 
 | | ID | Task | Acceptance |
 |---|---|---|---|
-| ☐ | L3.1 | devcontainer.json + compose: Floci (pinned) via Docker-in-Docker, aws CLI v2, Python 3.12, Node 22, Terraform, m4ai-lab, Bedrock proxy env wired | on this Mac with Docker: `devcontainer up` (or docker compose) reaches Floci ready; `aws --endpoint-url http://localhost:4566 s3 ls` works; `m4ai-lab check rag-chatbot` runs; no key or token is baked into any file (secret scan clean). |
+| ☑ | L3.1 | devcontainer.json + compose: Floci (pinned) via Docker-in-Docker, aws CLI v2, Python 3.12, Node 22, Terraform, m4ai-lab, Bedrock proxy env wired | on this Mac with Docker: `devcontainer up` (or docker compose) reaches Floci ready; `aws --endpoint-url http://localhost:4566 s3 ls` works; `m4ai-lab check rag-chatbot` runs; no key or token is baked into any file (secret scan clean). |
 | ☐ | L3.2 | Lab repo on GitHub (operator's yes first) and the reference passes inside a real Codespace | the public template repo exists; a Codespace from it boots; time to a usable terminal and to Floci ready is recorded for 2-core and 4-core; the reference solution passes 6/6 inside it. |
 | ☐ | L3.3 | Codespaces prebuild (if boot is slow) and the "Run locally" guide tested word for word | with prebuild on, boot-to-terminal is recorded again; a scripted walk of the README local steps on a clean Docker host passes. |
 

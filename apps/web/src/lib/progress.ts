@@ -368,3 +368,27 @@ export function importProjectReport(projectId: string, totalStages: number) {
   writeProgress(updateStreak(state));
   return { xp };
 }
+
+/**
+ * Cloud labs: stages passed in an imported, self-checked grader report. Stored with the projects (key `lab:<id>`)
+ * so it merges across devices the same way; +10 XP per stage passed the first time, +50 when every stage has passed.
+ */
+export function importLabStages(labId: string, passed: number[], totalStages: number) {
+  const key = `lab:${labId}`;
+  const state = readProgress();
+  const projects = { ...(state.projects ?? {}) };
+  const cur = projects[key] ?? { stages: [], completedAt: null };
+  const fresh = passed.filter((n) => !cur.stages.includes(n));
+  const stages = [...new Set([...cur.stages, ...passed])].sort((a, b) => a - b);
+  let xp = fresh.length * XP_PROJECT_STAGE;
+  let completedAt = cur.completedAt;
+  if (!completedAt && stages.length >= totalStages) {
+    completedAt = Date.now();
+    xp += XP_PROJECT_DONE;
+  }
+  projects[key] = { stages, completedAt, verifiedReport: true };
+  state.projects = projects;
+  state.xp += xp;
+  writeProgress(updateStreak(state));
+  return { xp, fresh, progress: projects[key] };
+}

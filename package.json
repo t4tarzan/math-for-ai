@@ -21,6 +21,7 @@
     "legacy:compile:lessons": "node scripts/build-interactive-lessons.mjs && node scripts/compile-lessons.mjs --phase=all",
     "legacy:compile:lessons:phase0": "node scripts/compile-lessons.mjs --phase=0",
     "legacy:compile:lessons:phase1": "node scripts/compile-lessons.mjs --phase=1",
-    "legacy:compile:interactive": "node scripts/build-interactive-lessons.mjs && node scripts/enrich-lesson-platform.mjs && node scripts/generate-hidden-tests.mjs"
+    "legacy:compile:interactive": "node scripts/build-interactive-lessons.mjs && node scripts/enrich-lesson-platform.mjs && node scripts/generate-hidden-tests.mjs",
+    "sync:labs": "node scripts/sync-labs.mjs"
   }
 }

@@ -8,7 +8,7 @@ PORT=18080
 TOKEN_FILE="$PWD/.lab-token"; [ -f "$TOKEN_FILE" ] || (umask 077; echo "m4ai_lab_dev_$(openssl rand -hex 12)" > "$TOKEN_FILE")
 export SPIKE_LAB_TOKEN="$(cat "$TOKEN_FILE")"
 if ! curl -s -o /dev/null "http://127.0.0.1:$PORT/"; then
-  OPENROUTER_API_KEY="$(awk -F= '/^OPENROUTER_API_KEY[ ]*=/{sub(/^[^=]*=[ ]*/,"");print}' ~/hub2/keys/keys.md | tr -d '" ')" \
+  OPENROUTER_API_KEY="$(awk -F= '/^LAB_OPENROUTER_API_KEY[ ]*=/{sub(/^[^=]*=[ ]*/,"");print}' ~/hub2/keys/keys.md | tr -d '" ')" \
   SPIKE_PROXY_LOG="$PWD/proxy-log.jsonl" nohup python3 ../spike/proxy.py $PORT > proxy.out 2>&1 &
   echo $! > proxy.pid
 fi

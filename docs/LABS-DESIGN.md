@@ -149,7 +149,7 @@ repo". XP: **+10 per stage passed (once), +50 for the capstone**, labelled "self
 - Model mapping: any Bedrock model id → one default OpenRouter model (D3), **non-reasoning** (a reasoning model spent the whole max_tokens on hidden reasoning in the spike); the response carries the Bedrock id back.
 - Cost source: OpenRouter's usage accounting in the response (`usage.cost`, USD; **L1** confirms the field), never estimates.
 - Errors: daily cap → `402 {"error":"daily_cap","resets_at"}`; monthly ceiling → `402 {"error":"monthly_ceiling"}`;
-  rate limit (**30 requests/min per token**) → `429 {"error":"rate_limited","retry_after_s"}`. The guides show these bodies.
+  rate limit (**120 requests/min per token**; 30 was tested and failed a normal grading run of ~32 calls in under a minute, so the USD caps bound cost and the rate limit only stops runaway loops) → `429 {"error":"rate_limited","retry_after_s"}`. The guides show these bodies.
 - During L1–L2 (before the proxy exists) Floci's proxy points straight at OpenRouter with a **dev key that stays on hub2**;
   switching to `/api/lab/model` is part of L4.1.
 

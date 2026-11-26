@@ -3,7 +3,7 @@
 > Regenerate with `bin/labplan.py mirror`. Do not hand-edit. INTERNAL.
 > Design: docs/LABS-DESIGN.md · plan of record: docs/LABS-ARC.md · architecture: docs/LABS-ARCHITECTURE.md · cockpit: http://127.0.0.1:6847
 
-**Progress: 10/23 leaves done.**
+**Progress: 13/23 leaves done.**
 
 
 ## L0 — Decisions and the design gate
@@ -37,7 +37,7 @@
 
 | | ID | Task | Acceptance |
 |---|---|---|---|
-| ☑ | L3.1 | devcontainer.json + compose: Floci (pinned) via Docker-in-Docker, aws CLI v2, Python 3.12, Node 22, Terraform, m4ai-lab, Bedrock proxy env wired | on this Mac with Docker: `devcontainer up` (or docker compose) reaches Floci ready; `aws --endpoint-url http://localhost:4566 s3 ls` works; `m4ai-lab check rag-chatbot` runs; no key or token is baked into any file (secret scan clean). |
+| ☑ | L3.1 | devcontainer.json + compose: Floci (pinned) via Docker-in-Docker, aws CLI v2, Python 3.12, Node 22, Terraform, m4ai-lab, Bedrock proxy env wired _(devcontainer (python 3.12 + docker-in-docker + aws-cli + terraform + node 22) built locally with @devcontainers/cli 0.91.0 in 2m15s cold; Floci ready <1s after Docker; aws, terraform validate, m4ai-lab, make all work; secret scan of lab files 0, env/floci 0.)_ | on this Mac with Docker: `devcontainer up` (or docker compose) reaches Floci ready; `aws --endpoint-url http://localhost:4566 s3 ls` works; `m4ai-lab check rag-chatbot` runs; no key or token is baked into any file (secret scan clean). |
 | ☐ | L3.2 | Lab repo on GitHub (operator's yes first) and the reference passes inside a real Codespace | the public template repo exists; a Codespace from it boots; time to a usable terminal and to Floci ready is recorded for 2-core and 4-core; the reference solution passes 6/6 inside it. |
 | ☐ | L3.3 | Codespaces prebuild (if boot is slow) and the "Run locally" guide tested word for word | with prebuild on, boot-to-terminal is recorded again; a scripted walk of the README local steps on a clean Docker host passes. |
 
@@ -45,9 +45,9 @@
 
 | | ID | Task | Acceptance |
 |---|---|---|---|
-| ☐ | L4.1 | /api/lab/model on math.wntap.org: OpenAI-compatible chat completions for Floci's proxy, lab-token auth, model mapping | a Converse call from Floci in the devcontainer returns a real answer through the route; an unknown or revoked token is 401; the provider key never appears in any response or log. |
-| ☐ | L4.2 | Per-learner USD ledger from provider usage, daily cap, monthly ceiling, rate limit | every call writes a ledger row with usage-derived cost; past the daily cap → 402 with a clear message; past the global ceiling → 402 for everyone; a burst over the rate limit → 429; tested with a lowered cap. |
-| ☐ | L4.3 | Embeddings route (if L1.3 chose it), same auth and ledger | the capstone Lambda gets vectors of the documented dimension through the route; cost recorded in the ledger. |
+| ☑ | L4.1 | /api/lab/model on math.wntap.org: OpenAI-compatible chat completions for Floci's proxy, lab-token auth, model mapping _(/api/lab/model/v1/{chat/completions,embeddings} + /api/lab/token: local tests chat/stream/embeddings 200 with usage.cost recorded; daily cap 402, monthly ceiling 402, rate 429, revoked 401; capstone 6/6 through the proxy. Rate limit raised 30->120/min (30 failed a grading run).)_ | a Converse call from Floci in the devcontainer returns a real answer through the route; an unknown or revoked token is 401; the provider key never appears in any response or log. |
+| ☑ | L4.2 | Per-learner USD ledger from provider usage, daily cap, monthly ceiling, rate limit | every call writes a ledger row with usage-derived cost; past the daily cap → 402 with a clear message; past the global ceiling → 402 for everyone; a burst over the rate limit → 429; tested with a lowered cap. |
+| ☑ | L4.3 | Embeddings route (if L1.3 chose it), same auth and ledger | the capstone Lambda gets vectors of the documented dimension through the route; cost recorded in the ledger. |
 
 ## L5 — The lab inside math.wntap.org
 

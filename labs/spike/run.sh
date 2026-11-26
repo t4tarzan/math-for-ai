@@ -8,7 +8,7 @@ export SPIKE_LAB_TOKEN="m4ai_lab_spike_$(openssl rand -hex 12)"
 rm -f proxy-log.jsonl results.json
 
 # dev key: from keys.md into this process only (never printed, never given to Floci or a Lambda)
-OPENROUTER_API_KEY="$(awk -F= '/^OPENROUTER_API_KEY[ ]*=/{sub(/^[^=]*=[ ]*/,"");print}' ~/hub2/keys/keys.md | tr -d '"' | tr -d ' ')"
+OPENROUTER_API_KEY="$(awk -F= '/^LAB_OPENROUTER_API_KEY[ ]*=/{sub(/^[^=]*=[ ]*/,"");print}' ~/hub2/keys/keys.md | tr -d '"' | tr -d ' ')"
 [ -n "$OPENROUTER_API_KEY" ] || { echo "no OPENROUTER_API_KEY in keys.md"; exit 2; }
 OPENROUTER_API_KEY="$OPENROUTER_API_KEY" python3 proxy.py $PORT & PROXY_PID=$!
 cleanup() {

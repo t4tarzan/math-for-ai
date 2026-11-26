@@ -24,3 +24,4 @@ labs/.private/
 **/.terraform.lock.hcl
 **/build/
 lab.outputs.json
+*.egg-info/

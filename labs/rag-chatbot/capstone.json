@@ -1,0 +1,24 @@
+{
+ "id": "rag-chatbot",
+ "version": "0.1.0",
+ "title": "Production RAG chatbot — Floci edition",
+ "based_on": {
+  "title": "Capstone 08: Production RAG Chatbot for a Regulated Vertical",
+  "source": "https://github.com/rohitg00/ai-engineering-from-scratch/tree/main/phases/19-capstone-projects/08-production-rag-chatbot",
+  "licence": "MIT"
+ },
+ "documents": {"publisher": "GOV.UK", "licence": "Open Government Licence v3.0", "count": 12},
+ "outputs": ["bucket", "vector_bucket", "vector_index", "api_url", "user_pool_id", "user_pool_client_id", "history_table", "log_group"],
+ "stages": [
+  {"n": 1, "id": "ingest", "title": "Ingest the documents", "needs": ["bucket"]},
+  {"n": 2, "id": "index", "title": "Index them as vectors", "needs": ["vector_bucket", "vector_index"]},
+  {"n": 3, "id": "answer", "title": "Answer with citations", "needs": ["api_url"]},
+  {"n": 4, "id": "users", "title": "Sign-in and history", "needs": ["api_url", "user_pool_id", "user_pool_client_id", "history_table"]},
+  {"n": 5, "id": "safety", "title": "Guardrail and logs", "needs": ["api_url", "log_group"]},
+  {"n": 6, "id": "ship", "title": "Ship-ready infrastructure", "needs": []}
+ ],
+ "thresholds": {
+  "retrieval_top3": "5/5", "answer_citations": ">= 8/10", "out_of_scope_refused": "3/3",
+  "history_rows": ">= 2", "pii_refused": "5/5"
+ }
+}

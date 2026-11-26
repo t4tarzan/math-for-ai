@@ -3,7 +3,7 @@
 > Regenerate with `bin/labplan.py mirror`. Do not hand-edit. INTERNAL.
 > Design: docs/LABS-DESIGN.md · plan of record: docs/LABS-ARC.md · architecture: docs/LABS-ARCHITECTURE.md · cockpit: http://127.0.0.1:6847
 
-**Progress: 6/23 leaves done.**
+**Progress: 9/23 leaves done.**
 
 
 ## L0 — Decisions and the design gate
@@ -21,17 +21,17 @@
 |---|---|---|---|
 | ☑ | L1.1 | Floci (pinned digest) runs every service the capstone needs, scripted _(13/13 required; known gap: HTTP API JWT authorizer (Cognito) 401s valid tokens in Floci 2.5.0 -> capstone uses REST v1 + COGNITO_USER_POOLS (PASS). SPIKE.md.)_ | labs/spike/run.sh starts Floci in Docker and runs aws CLI checks for S3, S3 Vectors (create index, put, query), Lambda Python 3.12 (create, invoke, S3 trigger), API Gateway v2 (route → Lambda), Cognito (user pool, token, JWT authorizer rejects no token), DynamoDB, CloudWatch Logs; each prints PASS or FAIL with the error; results in docs/labs/SPIKE.md. |
 | ☑ | L1.2 | Bedrock proxy backend sends the configured bearer token, and Converse round-trips _(Bearer lab token arrives at /v1/chat/completions; Converse + ConverseStream real answers; usage.cost USD on non-stream; needs a non-reasoning model.)_ | with PROXY_URL pointed at a local echo server, a Converse call from the aws CLI arrives with `Authorization: Bearer <token>` (header logged); pointed at an OpenAI-compatible endpoint it returns a real answer. |
-| ◐ | L1.3 | Embeddings path measured (Q1): proxy /embeddings route vs a CPU model in the Lambda _(Proxy route chosen (OpenRouter /embeddings works, ~/bin/zsh.02/M tokens). Model pick + recall@3 wait for the document set (D7), run in L2.2.)_ | SPIKE.md compares both on the document set: recall@3 on 5 known queries, latency, Lambda package size; the choice is written into LABS-DESIGN.md §4. |
-| ◐ | L1.4 | Go/no-go: per-stage verdict with a fallback for every FAIL, operator acknowledged | SPIKE.md has a table stage → services → PASS/FAIL → fallback (drop/replace/workaround); the operator's go is recorded before L2 starts. |
+| ◐ | L1.3 | Embeddings path measured (Q1): proxy /embeddings route vs a CPU model in the Lambda _(Proxy route + bge-m3 (1024-d): recall@3 15/15 on the real GOV.UK set (5 retrieval queries + 10 questions); out-of-scope gap 0.348 vs 0.620 -> threshold 0.48. Option (b) CPU-in-Lambda not measured (not needed).)_ | SPIKE.md compares both on the document set: recall@3 on 5 known queries, latency, Lambda package size; the choice is written into LABS-DESIGN.md §4. |
+| ◐ | L1.4 | Go/no-go: per-stage verdict with a fallback for every FAIL, operator acknowledged _(Go/no-go table in SPIKE.md (all GO; stage 4 GO with REST v1; stage 6 Terraform untested until L3.1). Waits for the operator's go.)_ | SPIKE.md has a table stage → services → PASS/FAIL → fallback (drop/replace/workaround); the operator's go is recorded before L2 starts. |
 
 ## L2 — Capstone 08, Floci edition: content, grader, reference
 
 | | ID | Task | Acceptance |
 |---|---|---|---|
-| ☐ | L2.1 | capstone.json + six stage guides (Floci edition of capstone 08, source credited) | labs/rag-chatbot/ has capstone.json (stages, version), README and 6 guides; each guide ends with what the grader checks and its threshold (LABS-DESIGN §5); the source capstone 08 and MIT licence are credited. |
-| ☐ | L2.2 | Starter + licensed document set + public golden set (10 questions, 3 out-of-scope, 5 PII prompts) | D7 (document set) decided; its licence is named and allows reuse; golden.json follows LABS-DESIGN §9.2 (documents, 5 retrieval_queries, 10 questions, 3 out_of_scope, 5 pii); the starter writes lab.outputs.json (§9.1) and contains no stage solution (a grep for the reference handler names is empty). |
-| ☐ | L2.3 | Grader CLI `m4ai-lab check rag-chatbot` with one check group per stage, against any Floci endpoint | prints per-stage PASS/FAIL with a reason; --report writes JSON with capstone version (hash of capstone.json), per-stage results and the grader version; a run against an empty Floci fails stage 1 with a clear reason. |
-| ☐ | L2.4 | Reference solution (private repo) passes every stage; 5 broken variants fail the right stage | on a fresh Floci the reference passes 6/6; variants (no index, wrong citations, no refusal, no auth, no logs) each fail exactly the stage named; results logged in docs/labs/GRADER-PROOF.md. |
+| ☑ | L2.1 | capstone.json + six stage guides (Floci edition of capstone 08, source credited) _(labs/rag-chatbot: capstone.json (v0.1.0), README, 6 guides with grader checks + thresholds; source capstone 08 (MIT) and GOV.UK OGL credited.)_ | labs/rag-chatbot/ has capstone.json (stages, version), README and 6 guides; each guide ends with what the grader checks and its threshold (LABS-DESIGN §5); the source capstone 08 and MIT licence are credited. |
+| ☑ | L2.2 | Starter + licensed document set + public golden set (10 questions, 3 out-of-scope, 5 PII prompts) _(D7: GOV.UK consumer + data-rights guidance, 12 pages via the official Content API, OGL v3 (FTC first choice blocked automated access; not bypassed). golden.json per §9.2; starter writes lab.outputs.json; grep of reference names in starter empty.)_ | D7 (document set) decided; its licence is named and allows reuse; golden.json follows LABS-DESIGN §9.2 (documents, 5 retrieval_queries, 10 questions, 3 out_of_scope, 5 pii); the starter writes lab.outputs.json (§9.1) and contains no stage solution (a grep for the reference handler names is empty). |
+| ☑ | L2.3 | Grader CLI `m4ai-lab check rag-chatbot` with one check group per stage, against any Floci endpoint _(grader 0.1.0: 6 stage groups; report schema 1 with capstone_hash; empty lab fails stage 1 with a clear reason.)_ | prints per-stage PASS/FAIL with a reason; --report writes JSON with capstone version (hash of capstone.json), per-stage results and the grader version; a run against an empty Floci fails stage 1 with a clear reason. |
+| ◐ | L2.4 | Reference solution (private repo) passes every stage; 5 broken variants fail the right stage | on a fresh Floci the reference passes 6/6; variants (no index, wrong citations, no refusal, no auth, no logs) each fail exactly the stage named; results logged in docs/labs/GRADER-PROOF.md. |
 
 ## L3 — The devcontainer: Codespaces and the learner laptop
 

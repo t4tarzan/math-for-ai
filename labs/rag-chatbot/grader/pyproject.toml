@@ -1,0 +1,16 @@
+[project]
+name = "m4ai-lab"
+version = "0.1.0"
+description = "Grader for the Math for AI cloud labs (runs against your own Floci)"
+requires-python = ">=3.10"
+dependencies = ["boto3>=1.40"]
+
+[project.scripts]
+m4ai-lab = "m4ai_lab.cli:main"
+
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools.packages.find]
+include = ["m4ai_lab*"]

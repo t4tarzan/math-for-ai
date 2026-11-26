@@ -18,3 +18,9 @@ runtime/
 __pycache__/
 labs/spike/results.json
 labs/spike/proxy-log.jsonl
+labs/.private/
+**/.terraform/
+**/terraform.tfstate*
+**/.terraform.lock.hcl
+**/build/
+lab.outputs.json

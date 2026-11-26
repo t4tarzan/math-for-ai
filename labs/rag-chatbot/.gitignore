@@ -1,0 +1,8 @@
+.lab/
+lab.outputs.json
+lab-report.json
+build/
+infra/.terraform/
+infra/terraform.tfstate*
+infra/.terraform.lock.hcl
+**/__pycache__/

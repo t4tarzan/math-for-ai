@@ -85,7 +85,7 @@ credited) and maps its rubric to checks against the learner's running Floci.
 | Stage | Learner builds | The grader checks (pass threshold) |
 |---|---|---|
 | 1 Ingest | S3 bucket + upload the document set | bucket exists; all N documents present with `doc_id` metadata (N/N) |
-| 2 Index | Lambda on S3 event: chunk + embed → S3 Vectors index | index exists; every document has ≥ 1 vector (learners choose their chunking); the 5 `retrieval_queries` in golden.json return a chunk of the expected document in the top 3 (5/5) |
+| 2 Index | Lambda on S3 event: chunk + embed → S3 Vectors index (bucket + index created by `make vectors`: Floci cannot look them up by ARN, which Terraform needs) | index exists; every document has ≥ 1 vector (learners choose their chunking); the 5 `retrieval_queries` in golden.json return a chunk of the expected document in the top 3 (5/5) |
 | 3 Answer | API Gateway **REST API (v1)** → Lambda: retrieve + Bedrock Converse (v1 because Floci's HTTP API JWT authorizer fails; SPIKE.md) | 10 public golden questions: correct `doc_id` in `citations` (≥ 8/10); 3 out-of-scope questions return `refused: true` (3/3) |
 | 4 Users | Cognito user pool + `COGNITO_USER_POOLS` authorizer on the REST API; chat history in DynamoDB | no token → 401; the grader creates its own test user (AdminCreateUser), asks 2 questions → 2 history rows with that user's `sub`, then deletes the user |
 | 5 Safety + logs | guardrail before the model (PII + out-of-scope) + CloudWatch logs | 5 listed PII prompts → `refused: true` (5/5); every request the grader made has a JSON log line `{"request_id", "latency_ms", "refused"}` in the log group named in `lab.outputs.json` |

@@ -9,6 +9,7 @@ LOG = os.environ.get("SPIKE_PROXY_LOG", "proxy-log.jsonl")
 EXPECT = os.environ["SPIKE_LAB_TOKEN"]
 # a non-reasoning model: reasoning models can spend the whole max_tokens on hidden reasoning and return empty text
 MODEL = os.environ.get("SPIKE_MODEL", "mistralai/mistral-small-24b-instruct-2501")
+EMBED_MODEL = os.environ.get("SPIKE_EMBED_MODEL", "baai/bge-m3")
 
 class H(BaseHTTPRequestHandler):
     def do_POST(self):
@@ -23,9 +24,12 @@ class H(BaseHTTPRequestHandler):
         if not rec["auth_ok"]:
             self._send(401, {"error": "invalid_token"}); rec["status"] = 401
         else:
-            req["model"] = MODEL
-            req["usage"] = {"include": True}
-            up = urllib.request.Request("https://openrouter.ai/api/v1/chat/completions", data=json.dumps(req).encode(),
+            embed = self.path.rstrip("/").endswith("/embeddings")
+            req["model"] = EMBED_MODEL if embed else MODEL
+            if not embed:
+                req["usage"] = {"include": True}
+            target = "https://openrouter.ai/api/v1/" + ("embeddings" if embed else "chat/completions")
+            up = urllib.request.Request(target, data=json.dumps(req).encode(),
                 headers={"Authorization": "Bearer " + os.environ["OPENROUTER_API_KEY"], "Content-Type": "application/json"})
             try:
                 with urllib.request.urlopen(up, timeout=60) as r:
@@ -35,7 +39,9 @@ class H(BaseHTTPRequestHandler):
                         rec["status"] = 200; rec["streamed_bytes"] = len(raw)
                     else:
                         out = json.loads(raw); rec["status"] = 200
-                        rec["usage"] = out.get("usage"); rec["answer_chars"] = len(out["choices"][0]["message"].get("content") or "")
+                        rec["usage"] = out.get("usage")
+                        if "choices" in out:
+                            rec["answer_chars"] = len(out["choices"][0]["message"].get("content") or "")
                         self._send(200, out)
             except Exception as e:
                 rec["status"] = 502; rec["error"] = str(e)[:200]; self._send(502, {"error": "upstream"})

@@ -55,4 +55,16 @@ real document set (D7) and run in L2.2; until then L1.3 is partial.
 | 5 Safety + logs | Lambda, CloudWatch Logs | GO | — |
 | 6 Ship-ready | Terraform against Floci | not yet tested | test in L3.1 (Terraform is not installed on hub2; the devcontainer has it) |
 
+## Found while building the reference (L2)
+
+- **S3 Vectors lookup by ARN fails** (`GetVectorBucket`/`GetIndex` with an ARN → "The vector bucket null does not exist"; by
+  name works). The Terraform AWS provider refreshes these resources by ARN, so it thinks they vanished and tries to recreate
+  them. Workaround: create the vector bucket and index with `make vectors` (by name); Terraform takes their names as variables.
+- Terraform (AWS provider 6.x) applies the rest of the stack (21 resources incl. REST API + Cognito authorizer + DynamoDB)
+  to Floci cleanly, and `plan` shows no changes after apply once `__pycache__` is excluded from the Lambda zip.
+- The Lambda Python 3.12 runtime ships boto3 1.43 with the `s3vectors` client; Lambdas reach a host service via
+  `host.docker.internal` (in Codespaces the proxy is a public URL instead).
+- Embeddings: **bge-m3, recall@3 15/15** on the real document set; out-of-scope gap 0.348 (in-scope max) vs 0.620 (off-topic
+  min) → threshold 0.48.
+
 Spend: model and embedding calls ≈ $0.0001 in total. No learner code ran anywhere.
